@@ -67,8 +67,6 @@ public class Syntaxer {
 
                 stmt();
 
-
-
             }
 
             if (currentToken.getTokenClass() != Token.STOP_KEYWORD) {
@@ -136,7 +134,17 @@ public class Syntaxer {
 
             currentToken= lexer.nextToken();
 
-            booleanexprstmt();
+            stmt();
+
+            while (currentToken.getTokenClass() == Token.DELIMITER) {
+
+                currentToken = lexer.nextToken();
+
+                if (currentToken.getTokenClass() == Token.EOF) break;
+
+                stmt();
+
+            }
 
             if(currentToken.getTokenClass()== Token.CLOSECURLYBRACKET){
                 currentToken = lexer.nextToken();
@@ -184,14 +192,59 @@ public class Syntaxer {
 
     }
 
-    //TODO
     public void while_stmt(){
+
+        System.out.println("ENTERED WHILESTMT");
         if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+            currentToken = lexer.nextToken();
+
+            booleanexprstmt();
+
+            if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+
+                currentToken = lexer.nextToken();
+
+                if(currentToken.getTokenClass()==Token.OPENCURLYBRACKET){
+
+                    currentToken = lexer.nextToken();
+
+                    stmt();
+
+
+                    while (currentToken.getTokenClass() == Token.DELIMITER) {
+
+                        currentToken = lexer.nextToken();
+
+                        if (currentToken.getTokenClass() == Token.EOF) break;
+
+                        stmt();
+
+                    }
+
+                    if(currentToken.getTokenClass()==Token.CLOSECURLYBRACKET){
+                        currentToken = lexer.nextToken();
+                    }else{
+
+                        System.out.println("} EXPECTED at line "+currentToken.getLineNumber());
+                    }
+
+
+
+                }else{
+                    System.out.println("{ EXPECTED at line "+currentToken.getLineNumber());
+                }
+
+
+            }else{
+                System.out.println(") EXPECTED at line "+currentToken.getLineNumber());
+            }
 
         }else{
-            System.out.println("( EXPECTED");
+            System.out.println("( EXPECTED at line "+currentToken.getLineNumber());
         }
 
+
+        System.out.println("EXITED WHILESTMT");
     }
 
     //TODO
@@ -410,7 +463,7 @@ public class Syntaxer {
         System.out.println("ENTERED ID");
         int tokenClass = currentToken.getTokenClass();
 
-        if (tokenClass == Token.VARIABLE) {
+        if (tokenClass == Token.VARIABLE|tokenClass==Token.NUMDEC|tokenClass==Token.NUMINT) {
             currentToken = lexer.nextToken();
         } else {
             System.out.println("INVALID ID");
