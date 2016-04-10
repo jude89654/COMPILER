@@ -100,13 +100,15 @@ public class Syntaxer {
                 //TODO
                 break;
             case Token.STRING:
-                lexer.nextToken();
+                currentToken=lexer.nextToken();
                 string_stmt();
                 break;
-            case Token.MAKELAGAY_KEYWORD:
+            case Token.MAKELAGAY_KEYWORD://IO
             case Token.MAKELIMBAG_KEYWORD:
-                lexer.nextToken();
-                IO();
+                System.out.println("ENTERED IO");
+                currentToken=lexer.nextToken();
+                expr_stmt();
+                System.out.println("EXITED IO");
                 break;
             case Token.IFKUNG_KEYWORD:
                 currentToken = lexer.nextToken();
