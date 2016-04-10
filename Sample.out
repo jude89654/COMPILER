@@ -1,0 +1,33 @@
+Identifier	static
+Identifier	float
+Identifier	average
+LeftParenthesis	(
+Identifier	int
+Identifier	n1
+ParameterSep	,
+Identifier	int
+Identifier	n2
+ParameterSep	,
+Identifier	int
+Identifier	n3
+RightParenthesis	)
+LeftBracket	{
+ERROR	Invalid input:/
+ERROR	Invalid input:*
+Identifier	float
+Identifier	sum
+ERROR	Invalid input: =
+Identifier	n1
+ERROR	Invalid input:+
+Identifier	n2
+ERROR	Invalid input:+
+Identifier	n3
+ERROR	Invalid input:;
+Identifier	return
+Identifier	sum
+ERROR	Invalid input:/
+Num	3.0
+ERROR	Invalid input:;
+ERROR	Invalid input:*
+ERROR	Invalid input:/
+RightBracket	}

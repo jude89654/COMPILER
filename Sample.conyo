@@ -1,0 +1,98 @@
+LEGGO
+
+	makeLimbag("Hello! It's so mainit")|
+	apple is 12|
+	banana is 10|
+	#si lizette ay maganda
+
+	@GAYLE
+	LOVES
+	BOLO@
+
+
+	#Conditional chuchu
+
+	ifKung(Yah){
+		banana is 5|
+	}
+	orKaya(Nah){
+		banana is 10.12|
+	}
+
+	likeFor(i is 0 | i<12 | i is i iAdd 1)
+	{
+	apple iAdd 1|
+	}
+
+	gawinThis{
+	apple is apple iAdd 1 |
+	}likeWhile(apple<banana)
+
+	gawinLater kuninThatSum(apple,banana)
+	{
+		returnNa (apple iAdd banana)|
+	}
+
+
+
+
+
+	likeWhile(apple<banana)
+	{ apple is apple iAdd 1|
+	}
+
+
+	#Arithmetic Operations
+
+	guava is apple iTimes banana|
+	pineapple is apple iDiv banana|
+	watermelon is guava iMod pineapple|
+	melon is guave iPow banana|
+
+	#Relational Operations
+	ifKung(apple==12)
+	{
+		apple is apple iAdd 1|
+	}
+	orKung(apple>12)
+	{
+		apple is apple|
+	}
+	orKung(apple!=guava)
+	{
+		apple is apple iAdd melon|
+	}
+	orKung(apple<melon)
+	{
+		apple is apple iSub banana|
+	}
+	orKung(apple>=banana)
+	{
+		apple is watermelon iMod banana|
+	}
+	orKung(apple<=melon)
+	{
+		apple is melon iTimes guava|
+	}
+	orKaya
+	{
+		apple is apple iSub 1|
+	}
+
+	#Boolean Operators
+	ifKung((apple==12) And (melon<watermelon))
+	{
+		makeLimbag("apple is 12 and melon is less than watermelon")|
+	}
+	orKung((apple!=12) Or (melon>watermelon))
+	{
+		makeLimbag("apple is not 12 or melon is greater than watermelon")|
+	}
+	orKung(Not(apple==12))
+	{
+		makeLimbag("apple is not equal to 12")|
+	}
+
+
+
+stop Na
