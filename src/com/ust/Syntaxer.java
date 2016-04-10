@@ -69,7 +69,6 @@ public class Syntaxer {
 
 
 
-
             }
 
             if (currentToken.getTokenClass() != Token.STOP_KEYWORD) {
@@ -107,11 +106,9 @@ public class Syntaxer {
                 string_stmt();
                 break;
             case Token.MAKELAGAY_KEYWORD:
-                lexer.nextToken();
-                print_stmt();
             case Token.MAKELIMBAG_KEYWORD:
                 lexer.nextToken();
-                input_stmt();
+                IO();
                 break;
             case Token.IFKUNG_KEYWORD:
                 currentToken = lexer.nextToken();
@@ -146,6 +143,30 @@ public class Syntaxer {
 
                 if(currentToken.getTokenClass()==Token.WHILE_KEYWORD){
 
+                    currentToken = lexer.nextToken();
+
+                    if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+
+                        currentToken = lexer.nextToken();
+
+                        booleanexprstmt();
+
+                        if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+
+                            currentToken = lexer.nextToken();
+
+                        }else{
+                            System.out.println("CLOSE PARENTHESIS EXPECTED at line "+currentToken.getLineNumber());
+                        }
+
+
+                    }else{
+                        System.out.println("( EXPECTED at LINE "+ currentToken.getLineNumber());
+                    }
+
+                }
+                else{
+                    System.out.println("EXPECTED WHILE AT LINE"+ currentToken.getLineNumber());
                 }
 
             }else{
@@ -165,6 +186,11 @@ public class Syntaxer {
 
     //TODO
     public void while_stmt(){
+        if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+
+        }else{
+            System.out.println("( EXPECTED");
+        }
 
     }
 
@@ -183,8 +209,14 @@ public class Syntaxer {
     public void string_stmt(){
         System.out.println("ENTERED STRING STMT");
         while(currentToken.getTokenClass()!=Token.DELIMITER){
+
             if(currentToken.getTokenClass()==Token.CONCATOP){
                 currentToken=lexer.nextToken();
+            }
+            else if (currentToken.getTokenClass()==Token.NUMDEC
+                    |currentToken.getTokenClass()==Token.NUMINT
+                    |currentToken.getTokenClass()==Token.VARIABLE){
+                currentToken = lexer.nextToken();
             }
             else{
                 System.out.println(". OR |" + " EXPECTED");
@@ -215,6 +247,7 @@ public class Syntaxer {
     public void IO() {
         System.out.println("ENTERED IO");
 
+        expr_stmt();
 
         System.out.println("EXITED IO");
 
