@@ -13,31 +13,13 @@ public class Main {
         String inFile = "Sample.conyo";
         String outFile = "Sample.peaceOut";
 
-        if (args.length > 1) {
-            inFile = args[0];
-            outFile = args[1];
-        }
-        //String filename;
 
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "ALL CONYO FILES","conyo");
-        chooser.setFileFilter(filter);
-        chooser.changeToParentDirectory();
+        inFile = getFile();
 
 
-        JFrame jude = new JFrame();
-        int returnVal = chooser.showOpenDialog(jude);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            inFile = chooser.getSelectedFile().getAbsolutePath();
-        }
+        parse(inFile);
 
-
-
-            parse("Jude.conyo");
-
-           // scanner(inFile,"Jude.peaceOut");
+        scanner(inFile);
 
 
 
@@ -50,11 +32,12 @@ public class Main {
 
     }
 
-    public static void scanner(String filename, String outputFile){
+    public static void scanner(String filename){
 
+        String outputfile=filename.replace(".conyo",".PeaceOut");
         Lexer lexer = new Lexer(filename);
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputfile));
 
             Token t;
 
@@ -66,10 +49,28 @@ public class Main {
             writer.close();
 
             System.out.println("Done tokenizing file: " + filename);
-            System.out.println("Output written in file: " + outputFile);
+            System.out.println("Output written in file: " +outputfile );
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getFile(){
+        JFileChooser chooser = new JFileChooser();
+
+        String inFile="";
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "ALL CONYO FILES","conyo");
+        chooser.setFileFilter(filter);
+        chooser.changeToParentDirectory();
+
+        JFrame jude = new JFrame();
+        int returnVal = chooser.showOpenDialog(jude);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            inFile = chooser.getSelectedFile().getAbsolutePath();
+        }
+        return inFile;
     }
 }
