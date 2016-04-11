@@ -71,6 +71,7 @@ public class Main {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             inFile = chooser.getSelectedFile().getAbsolutePath();
         }
+
         return inFile;
     }
 }
