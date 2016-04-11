@@ -358,6 +358,7 @@ public class Syntaxer {
             case Token.YAH_KEYWORD:
             case Token.NAH_KEYWORD:
                 currentToken = lexer.nextToken();
+                logicalexpr();
                 break;
             case Token.VARIABLE:
             case Token.NUMDEC:
@@ -429,10 +430,42 @@ public class Syntaxer {
 	 * <expr_stmt> -> <term> {(+|-) <term> }
 	 */
 //<EXPR_STMT> →  <ARITHMETICEXPR>  |<STRINGEXPR> |<ID>| <ASSIGNEXPR>
+
+
     public void expr_stmt() {
         System.out.println("ENTERED EXPRESSION STATEMENT");
 
-        switch (currentToken.getTokenClass()) {
+        if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+
+            currentToken = lexer.nextToken();
+
+            expr_stmt();
+
+            if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+                currentToken=lexer.nextToken();
+            }
+        }
+
+        if(currentToken.getTokenClass()==Token.ADDOP
+                |currentToken.getTokenClass()==Token.SUBOP
+                |currentToken.getTokenClass()==Token.MULTOP
+                |currentToken.getTokenClass()==Token.DIVOP
+                |currentToken.getTokenClass()==Token.POWOP){
+            currentToken = lexer.nextToken();
+            //TODO
+        }
+
+        if(currentToken.getTokenClass()==Token.VARIABLE
+                |currentToken.getTokenClass()==Token.NUMINT
+                |currentToken.getTokenClass()==Token.NUMDEC){
+            
+            currentToken = lexer.nextToken();
+            //TODO
+
+        }
+
+
+        /*switch (currentToken.getTokenClass()) {
             case Token.ADDOP:
             case Token.SUBOP:
             case Token.MULTOP:
@@ -452,7 +485,7 @@ public class Syntaxer {
                 break;
 
 
-        }
+        }*/
 
         System.out.println("EXITED EXPRESSION STATEMENT");
 

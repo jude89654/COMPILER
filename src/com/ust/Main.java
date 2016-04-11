@@ -3,38 +3,43 @@ package com.ust;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.BufferedWriter;
-import java.io.FileDescriptor;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
         String inFile = "Sample.conyo";
         String outFile = "Sample.peaceOut";
 
+        try {
+            inFile = getFile();
 
-        inFile = getFile();
+
+            parse(inFile);
+
+            scanner(inFile);
 
 
-        parse(inFile);
-
-        scanner(inFile);
+        } catch (FileNotFoundException fnfe) {
+            System.out.println("FILE NOT FOUND");
+        }
+        catch (InvalidFileException ife){
+            System.out.println("WRONG FILE EXTENSION");
+        }
 
 
 
 
     }
 
-    public static void parse(String filename ){
+    public static void parse(String filename) {
         Syntaxer bungol = new Syntaxer(filename);
         bungol.program();
 
     }
 
-    public static void scanner(String filename){
+    public static void scanner(String filename) {
 
-        String outputfile=filename.replace(".conyo",".PeaceOut");
+        String outputfile = filename.replace(".conyo", ".PeaceOut");
         Lexer lexer = new Lexer(filename);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(outputfile));
@@ -49,29 +54,44 @@ public class Main {
             writer.close();
 
             System.out.println("Done tokenizing file: " + filename);
-            System.out.println("Output written in file: " +outputfile );
+            System.out.println("Output written in file: " + outputfile);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static String getFile(){
+    public static String getFile() throws FileNotFoundException,InvalidFileException {
         JFileChooser chooser = new JFileChooser();
 
-        String inFile="";
+        String inFile = "";
 
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "ALL CONYO FILES","conyo");
+                "ALL CONYO FILES", "conyo");
         chooser.setFileFilter(filter);
         chooser.changeToParentDirectory();
+
+
 
         JFrame jude = new JFrame();
         int returnVal = chooser.showOpenDialog(jude);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             inFile = chooser.getSelectedFile().getAbsolutePath();
         }
+        if(!inFile.endsWith(".conyo")) throw new InvalidFileException();
 
         return inFile;
     }
+}
+
+class InvalidFileException extends Exception{
+
+    InvalidFileException(String message){
+        super(message);
+    }
+
+    InvalidFileException(){
+        super();
+    }
+
 }
