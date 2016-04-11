@@ -53,7 +53,7 @@ public class Lexer {
     }
 
     public boolean isSymbol(char x) {
-        String symbol = "#@.";
+        String symbol = "";
         return symbol.contains("" + x);
     }
 
@@ -67,7 +67,7 @@ public class Lexer {
 
         while (true) {
 
-            System.out.println(currentCharacter + " " + state + " " + line);
+            //System.out.println(currentCharacter + " " + state + " " + line);
             if (currentCharacter == EOF && !skipped) {
                 skipped = true;
             } else if (skipped) {
@@ -101,7 +101,7 @@ public class Lexer {
                             return new Token("LParen", "(", line,Token.OPENPARENTHESIS);
                         case ')':
                             currentCharacter = read();
-                            return new Token("RParen", ")", line, nextToken().CLOSEPARENTHESIS);
+                            return new Token("RParen", ")", line, Token.CLOSEPARENTHESIS);
                         case '{':
                             currentCharacter = read();
                             return new Token("LBracket", "{", line, Token.OPENCURLYBRACKET);
@@ -1351,6 +1351,7 @@ public class Lexer {
                     continue;
 
             }
+
         }
     }
 }

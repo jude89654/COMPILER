@@ -50,9 +50,9 @@ public class Token {
     static final int GAWINLATER_KEYWORD = 144;
     static final int POWOP=145;
     static final int ISEQUALOP=146;
-    static final int NOTEQUALOP=146;
-    static final int STRING = 147;
-    static final int COMMENT=148;
+    static final int NOTEQUALOP=147;
+    static final int STRING = 148;
+    static final int COMMENT=149;
 
     static final int GREATERTHANOREQUAL=150;
     static final int LESSTHANOREQUAL=151;
@@ -72,6 +72,7 @@ public class Token {
         this.lexeme = lexeme;
         this.lineNumber = lineNumber;
         this.tokenClass = tokenClass;
+        System.out.println(toString());
     }
 
     // Returns the type of the token

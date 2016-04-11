@@ -1,0 +1,7 @@
+LEGGO
+
+ifKung( malaki<maliit ){
+    maliit is maliit iAdd 1|
+}
+
+stop

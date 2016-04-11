@@ -1,0 +1,16 @@
+KEYWORD			LEGGO	lineNumber:1
+KEYWORD			ifKung	lineNumber:3
+LParen			(	lineNumber:3
+VARIABLE			malaki	lineNumber:3
+BooleanOp			<	lineNumber:3
+VARIABLE			maliit	lineNumber:3
+RParen			)	lineNumber:3
+LBracket			{	lineNumber:3
+VARIABLE			maliit	lineNumber:4
+ASSIGNOP			is	lineNumber:4
+VARIABLE			maliit	lineNumber:4
+addOp			iAdd	lineNumber:4
+NUMINT			1	lineNumber:4
+DELIMITER			|	lineNumber:4
+RBracket			}	lineNumber:5
+KEYWORD			stop	lineNumber:7
