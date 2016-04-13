@@ -332,7 +332,7 @@ public class Lexer {
 				}
 				continue;
 			case "Qstop":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.STOP_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -404,7 +404,7 @@ public class Lexer {
 				}
 				continue;
 			case "QreturnNa":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.RETURNNA_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -448,7 +448,7 @@ public class Lexer {
 				}
 				continue;
 			case "QLEGGO":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.LEGGO_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -465,7 +465,7 @@ public class Lexer {
 				}
 				continue;
 			case "QOr":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("LOGICALOP", mgaNabasangLetra, line, Token.OR_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -491,7 +491,7 @@ public class Lexer {
 				}
 				continue;
 			case "QAnd":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("LOGICALOP", mgaNabasangLetra, line, Token.AND_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -575,7 +575,7 @@ public class Lexer {
 				}
 				continue;
 			case "QmakeLagay":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.MAKELAGAY_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -618,7 +618,7 @@ public class Lexer {
 				}
 				continue;
 			case "QmakeLimbag":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.MAKELIMBAG_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -684,7 +684,7 @@ public class Lexer {
 				}
 				continue;
 			case "QlikeFor":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.LIKEFOR_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -727,7 +727,7 @@ public class Lexer {
 				}
 				continue;
 			case "QlikeWhile":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.LIKEWHILE_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -784,7 +784,7 @@ public class Lexer {
 				}
 				continue;
 			case "QorKaya":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.ORKAYA_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -807,7 +807,7 @@ public class Lexer {
 					state = "QidBody";
 				}
 			case "QorKung":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.ORKUNG_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -837,14 +837,14 @@ public class Lexer {
 				}
 				continue;
 			case "QNot":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("LOGICALOP", mgaNabasangLetra, line, Token.NOT_KEYWORD);
 				} else {
 					state = "QidBody";
 				}
 				continue;
 			case "QNa":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("NOISEWORD", mgaNabasangLetra, line, Token.NA_KEYWORD);
 				} else if (currentCharacter == 'h') {
 					state = "QNah";
@@ -855,7 +855,7 @@ public class Lexer {
 				}
 				continue;
 			case "QNah":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("BOOLEAN", mgaNabasangLetra, line, Token.NAH_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -881,7 +881,7 @@ public class Lexer {
 				}
 				continue;
 			case "QYah":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("BOOLEAN", mgaNabasangLetra, line, Token.YAH_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -1004,7 +1004,7 @@ public class Lexer {
 				}
 				continue;
 			case "QgawinThis":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.GAWINTHIS_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -1048,7 +1048,7 @@ public class Lexer {
 				}
 				continue;
 			case "QgawinLater":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.GAWINLATER_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -1093,7 +1093,7 @@ public class Lexer {
 				}
 				continue;
 			case "QifKung":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.IFKUNG_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -1119,7 +1119,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiMod":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("ModOp", mgaNabasangLetra, line, Token.MODULOOP);
 				} else {
 					state = "QidBody";
@@ -1145,7 +1145,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiPow":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("POWOP", mgaNabasangLetra, line, Token.POWOP);
 				} else {
 					state = "QidBody";
@@ -1172,7 +1172,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiDiv":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("DivOp", mgaNabasangLetra, line, Token.DIVOP);
 				} else {
 					state = "QidBody";
@@ -1217,7 +1217,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiTimes":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("MultiOp", mgaNabasangLetra, line, Token.MULTOP);
 				} else {
 					state = "QidBody";
@@ -1225,7 +1225,7 @@ public class Lexer {
 				continue;
 				// CHECK KUNG is
 			case "Qis":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("ASSIGNOP", mgaNabasangLetra, line, Token.IS_KEYWORD);
 				} else {
 					state = "QidBody";
@@ -1252,7 +1252,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiAdd":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("addOp", mgaNabasangLetra, line, Token.ADDOP);
 				} else {
 					state = "QidBody";
@@ -1279,7 +1279,7 @@ public class Lexer {
 				}
 				continue;
 			case "QiSub":
-				if (!isSymbol(currentCharacter) | !isNumeric(currentCharacter) | !isAlpha(currentCharacter)) {
+				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("SUBOP", mgaNabasangLetra, line, Token.SUBOP);
 				} else {
 					state = "QidBody";
