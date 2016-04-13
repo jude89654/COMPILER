@@ -16,17 +16,14 @@ public class Main {
 
             parse(inFile);
 
-            scanner(inFile);
+            //scanner(inFile);
 
 
         } catch (FileNotFoundException fnfe) {
             System.out.println("FILE NOT FOUND");
-        }
-        catch (InvalidFileException ife){
+        } catch (InvalidFileException ife) {
             System.out.println("WRONG FILE EXTENSION");
         }
-
-
 
 
     }
@@ -61,7 +58,7 @@ public class Main {
         }
     }
 
-    public static String getFile() throws FileNotFoundException,InvalidFileException {
+    public static String getFile() throws FileNotFoundException, InvalidFileException {
         JFileChooser chooser = new JFileChooser();
 
         String inFile = "";
@@ -69,28 +66,27 @@ public class Main {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "ALL CONYO FILES", "conyo");
         chooser.setFileFilter(filter);
-        chooser.changeToParentDirectory();
-
-
+        //.
 
         JFrame jude = new JFrame();
         int returnVal = chooser.showOpenDialog(jude);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             inFile = chooser.getSelectedFile().getAbsolutePath();
         }
-        if(!inFile.endsWith(".conyo")) throw new InvalidFileException();
+        if (!inFile.endsWith(".conyo")) throw new InvalidFileException();
 
         return inFile;
     }
 }
 
-class InvalidFileException extends Exception{
 
-    InvalidFileException(String message){
+class InvalidFileException extends Exception {
+
+    InvalidFileException(String message) {
         super(message);
     }
 
-    InvalidFileException(){
+    InvalidFileException() {
         super();
     }
 

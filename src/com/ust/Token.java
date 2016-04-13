@@ -56,9 +56,7 @@ public class Token {
 
     static final int GREATERTHANOREQUAL=150;
     static final int LESSTHANOREQUAL=151;
-
-
-
+    static final int SEMICOLON = 152;
 
     private String token; // Type of of token
     private String lexeme; // The lexeme

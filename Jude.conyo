@@ -1,7 +1,7 @@
 LEGGO
 
 ifKung( malaki<maliit ){
-    maliit is maliit iAdd 1|
+    maliit is maliit iAdd 1 iSub 2|
 }
 
 stop
