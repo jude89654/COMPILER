@@ -61,7 +61,7 @@ public class Token {
     private String token; // Type of of token
     private String lexeme; // The lexeme
     private int lineNumber;
-    private int tokenClass;
+    public int tokenClass;
 
     private static int counter = 0;
 
@@ -70,7 +70,7 @@ public class Token {
         this.lexeme = lexeme;
         this.lineNumber = lineNumber;
         this.tokenClass = tokenClass;
-        System.out.println(toString());
+        System.out.println("FOUND \""+lexeme.toUpperCase()+"\"\t AT LINE "+lineNumber  );
     }
 
     // Returns the type of the token

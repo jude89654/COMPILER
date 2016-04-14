@@ -10,21 +10,21 @@ public class Main {
         String inFile = "Sample.conyo";
         String outFile = "Sample.peaceOut";
 
-        try {
-            inFile = getFile();
+        //try {
+        //    inFile = getFile();
 
 
             parse(inFile);
 
             //scanner(inFile);
 
-
+/*
         } catch (FileNotFoundException fnfe) {
             System.out.println("FILE NOT FOUND");
         } catch (InvalidFileException ife) {
             System.out.println("WRONG FILE EXTENSION");
         }
-
+*/
 
     }
 

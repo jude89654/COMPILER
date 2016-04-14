@@ -52,7 +52,7 @@ public class Lexer {
 	}
 
 	public boolean isSymbol(char x) {
-		String symbol = "";
+		String symbol = "_";
 		return symbol.contains("" + x);
 	}
 
@@ -1320,6 +1320,7 @@ public class Lexer {
 				continue;
 			case "Q>": // for > or >=
 				if (currentCharacter == '=') {
+					currentCharacter=read();
 					return new Token("BooleanOp", ">=", line, Token.GREATERTHANOREQUAL);
 				} else {
 
@@ -1328,6 +1329,7 @@ public class Lexer {
 
 			case "Q<": // for < or <=
 				if (currentCharacter == '=') {
+					currentCharacter=read();
 					return new Token("BooleanOp", "<=", line, Token.LESSTHANOREQUAL);
 				} else {
 					return new Token("BooleanOp", "<", line, Token.LESSTHAN);

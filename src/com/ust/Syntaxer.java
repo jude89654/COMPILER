@@ -41,93 +41,83 @@ public class Syntaxer {
         // Start of analysis
         currentToken = lexer.nextToken();
 
-        try {
-            if (currentToken.getLexeme().equals("LEGGO")) {
-                // System.out.print("FOUND LEGGO");
+
+        if (currentToken.getLexeme().equals("LEGGO")) {
+            // System.out.print("FOUND LEGGO");
+
+            currentToken = lexer.nextToken();
+            stmt();
+            while (currentToken.getTokenClass() == Token.DELIMITER|currentToken.getTokenClass()!=Token.T_UNKNOWN) {
 
                 currentToken = lexer.nextToken();
+
+                // if (currentToken.getTokenClass() == Token.continure) // break;
+
                 stmt();
-
-                while (currentToken.getTokenClass() == Token.DELIMITER) {
-
-                    currentToken = lexer.nextToken();
-
-                    //if (currentToken.getTokenClass() == Token.EOF) // break;
-
-                        stmt();
-
-                }
-
-                if (currentToken.getTokenClass() == Token.STOP_KEYWORD) {
-                    System.out.println("PARSING COMPLETE");
-
-                } else {
-
-                    System.out.println("STOP EXPECTED AT LINE:" + currentToken.getLineNumber());
-                }
-
-                // System.out.println("PARSE COMPLETE");
-
-            } else {
-                System.out.println("ERROR ON LINE " + currentToken.getLineNumber() + "\n LEGGO EXPECTED");
             }
-        } catch (Exception e) {
 
+
+            // System.out.println("PARSE COMPLETE");
+
+        } else {
             System.out.println("ERROR ON LINE " + currentToken.getLineNumber() + "\n LEGGO EXPECTED");
         }
     }
+
 
     // <STMT> → <IO> | <CONDSTMT> | <ASSIGNSTMT> | <ITERSTMT>
     // |<LOGICALOP>|<EXPR_STMT>|<DECSTMT>
     public void stmt() {
         System.out.println("ENTERED STATEMENT");
 
-        try {
-            switch (currentToken.getTokenClass()) {
-                case Token.VARIABLE:
-                    currentToken = lexer.nextToken();
-                    assignstmt();
-                    break;
-                case Token.NUMINT:
-                case Token.NUMDEC:
-                    currentToken = lexer.nextToken();
-                    expr_stmt();
-                    // TODO
-                    break;
-                case Token.STRING:
-                    currentToken = lexer.nextToken();
-                    string_stmt();
-                    break;
-                case Token.MAKELAGAY_KEYWORD:// IO
-                case Token.MAKELIMBAG_KEYWORD:
-                    currentToken = lexer.nextToken();
-                    string_stmt();
-                    break;
-                case Token.IFKUNG_KEYWORD:
-                    currentToken = lexer.nextToken();
-                    ifKungStmt();
-                    break;
-                case Token.WHILE_KEYWORD:
-                    currentToken = lexer.nextToken();
-                    while_stmt();
-                case Token.LIKEFOR_KEYWORD:
-                    currentToken = lexer.nextToken();
-                    forkung_stmt();
-                    break;
-                case Token.GAWINTHIS_KEYWORD:
-                    lexer.nextToken();
-                    gawinThis_stmt();
-                    break;
-                default:
-                    // System.out.println("INVALID TOKEN");
 
-            }
-        } catch (Exception e) {
-            System.out.print("UNEXPECTED END OF FILE");
+        switch (currentToken.getTokenClass()) {
+            case Token.VARIABLE:
+                currentToken = lexer.nextToken();
+                assignstmt();
+                break;
+            case Token.NUMINT:
+            case Token.NUMDEC:
+                currentToken = lexer.nextToken();
+                expr_stmt();
+                // TODO
+                break;
+            case Token.STRING:
+                currentToken = lexer.nextToken();
+                string_stmt();
+                break;
+            case Token.MAKELAGAY_KEYWORD:// IO
+            case Token.MAKELIMBAG_KEYWORD:
+                currentToken = lexer.nextToken();
+                string_stmt();
+                break;
+            case Token.IFKUNG_KEYWORD:
+                currentToken = lexer.nextToken();
+                ifKungStmt();
+                break;
+            case Token.WHILE_KEYWORD:
+                currentToken = lexer.nextToken();
+                while_stmt();
+                break;
+            case Token.LIKEFOR_KEYWORD:
+                currentToken = lexer.nextToken();
+                likefor();
+                break;
+            case Token.GAWINTHIS_KEYWORD:
+                currentToken = lexer.nextToken();
+                gawinThis_stmt();
+                break;///dsdasdasdasd
+            default:
+                System.out.println("INVALID TOKEN");
+
         }
+        System.out.println("EXITED STATEMENT");
     }
 
     public void gawinThis_stmt() {
+
+        System.out.println("ENTERED GAWIN THIS");
+
 
         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
 
@@ -139,7 +129,7 @@ public class Syntaxer {
 
                 currentToken = lexer.nextToken();
 
-                if (currentToken.getTokenClass() == Token.EOF)
+                if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET)
                     break;
 
                 stmt();
@@ -150,7 +140,7 @@ public class Syntaxer {
 
                 currentToken = lexer.nextToken();
 
-                if (currentToken.getTokenClass() == Token.WHILE_KEYWORD) {
+                if (currentToken.getTokenClass() == Token.LIKEWHILE_KEYWORD) {
 
                     currentToken = lexer.nextToken();
 
@@ -183,57 +173,57 @@ public class Syntaxer {
         } else {
             System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
         }
+
+        System.out.println("EXITED GAWIN THIS");
     }
 
-    public void forkung_stmt() {
+    public void likefor() {
+        System.out.print("ENTERED FOR");
 
-        if (currentToken.getTokenClass() == Token.FOR_KEYWORD) {
+        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
             currentToken = lexer.nextToken();
 
-            if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+            stmt();
+
+            if (currentToken.getTokenClass() == Token.SEMICOLON) {
                 currentToken = lexer.nextToken();
 
-                stmt();
+                booleanexprstmt();
 
                 if (currentToken.getTokenClass() == Token.SEMICOLON) {
                     currentToken = lexer.nextToken();
 
-                    booleanexprstmt();
+                    stmt();
 
-                    if (currentToken.getTokenClass() == Token.SEMICOLON) {
+                    if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
                         currentToken = lexer.nextToken();
 
-                        stmt();
-
-                        if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+                        if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
                             currentToken = lexer.nextToken();
-
-                            if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
+                            stmt();
+                            if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                                 currentToken = lexer.nextToken();
-                                stmt();
-                                if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
-                                    currentToken = lexer.nextToken();
-                                }
                             }
-
                         }
 
-                    }else{
-                        System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
                     }
 
-
-                }else{
+                } else {
                     System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
                 }
 
+
             } else {
-                System.out.println("( EXPECTED at line " + currentToken.getLineNumber());
+                System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
             }
 
+        } else {
+            System.out.println("( EXPECTED at line " + currentToken.getLineNumber());
         }
+        System.out.println("EXITED FOR");
 
     }
+
 
     public void while_stmt() {
 
@@ -299,7 +289,7 @@ public class Syntaxer {
             } else if (currentToken.getTokenClass() == Token.NUMDEC
                     | currentToken.getTokenClass() == Token.NUMINT
                     | currentToken.getTokenClass() == Token.VARIABLE
-                    | currentToken.getTokenClass()==Token.STRING) {
+                    | currentToken.getTokenClass() == Token.STRING) {
                 currentToken = lexer.nextToken();
             } else {
                 System.out.println(". OR |" + " EXPECTED");
@@ -352,8 +342,7 @@ public class Syntaxer {
                     while (currentToken.getTokenClass() == Token.DELIMITER) {
 
                         currentToken = lexer.nextToken();
-
-
+                        if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
 
                         stmt();
 
@@ -362,18 +351,14 @@ public class Syntaxer {
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         currentToken = lexer.nextToken();
 
-                        if(currentToken.getTokenClass()==Token.ORKAYA_KEYWORD){
-                            currentToken=lexer.nextToken();
-                            orkaya();
-
-                        }else
-
-                        if(currentToken.getTokenClass()==Token.ORKUNG_KEYWORD){
-                            currentToken=lexer.nextToken();
-                            orkung();
-                        }else{
-                            stmt();
+                        if (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
+                            currentToken = lexer.nextToken();
+                            orkungstmt();
                         }
+                        if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
+                            currentToken = lexer.nextToken();
+                            orkayastmt();
+                        } 
 
 
                     } else {
@@ -395,92 +380,92 @@ public class Syntaxer {
     }
 
 
-    public void orkung() {
+    public void orkayastmt() {
+        System.out.println("ENTERED OR KAYA");
 
+        if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
 
-            if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
+            currentToken = lexer.nextToken();
+
+            stmt();
+
+            while (currentToken.getTokenClass() == Token.DELIMITER) {
 
                 currentToken = lexer.nextToken();
 
-                stmt();
-
-                while (currentToken.getTokenClass() == Token.DELIMITER) {
-
-                    currentToken = lexer.nextToken();
-
-                    if (currentToken.getTokenClass() == Token.EOF) {
-                        System.out.println("UNEXPECTED END OF FILE");
-                        break;
-                    }
-
-                    stmt();
-
-                }
-
                 if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
-                    currentToken = lexer.nextToken();
+                    // System.out.println("UNEXPECTED END OF FILE");
+                    break;
                 }
-                else{
-                    System.out.println("} EXPECTED AT LINE"+currentToken.getLineNumber());
-                }
-            }else{
-                System.out.println("{ EXPECTED AT LINE"+currentToken.getLineNumber());
+
             }
-        System.out.println("ORKUNG EXITED");
+
+            if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
+                //currentToken = lexer.nextToken();
+            } else {
+                System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
+            }
+        } else {
+            System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
+        }
+        System.out.println("ORKAYA EXITED");
 
     }
 
-    public void orkaya() {
-        System.out.println("ENTERED OR KAYA");
+    public void orkungstmt() {
+        System.out.println("ENTERED OR KUNG");
 
-            if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+            currentToken = lexer.nextToken();
+
+            booleanexprstmt();
+
+            if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+
                 currentToken = lexer.nextToken();
 
-                booleanexprstmt();
-
-                if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+                if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
 
                     currentToken = lexer.nextToken();
 
-                    if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
+                    stmt();
+
+                    while (currentToken.getTokenClass() == Token.DELIMITER) {
 
                         currentToken = lexer.nextToken();
 
-                        stmt();
-
-                        while (currentToken.getTokenClass() == Token.DELIMITER) {
-
-                            currentToken = lexer.nextToken();
-
-                            if (currentToken.getTokenClass() == Token.EOF) {
-                                System.out.println("UNEXPECTED END OF FILE");
-                                break;
-                            }
-
-                            stmt();
-
-                        }
-
                         if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
-                            currentToken = lexer.nextToken();
-
-                        }else{
-                            System.out.println("} EXPECTED AT LINE"+currentToken.getLineNumber());
+                            //System.out.println("UNEXPECTED END OF FILE");
+                            break;
                         }
-
-                    }else{
-                        System.out.println("{ EXPECTED AT LINE"+currentToken.getLineNumber());
+                        stmt();
                     }
 
-                }else{
-                    System.out.println(") EXPECTED AT LINE"+currentToken.getLineNumber());
+                    if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
+                        currentToken = lexer.nextToken();
+                        if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
+                            orkungstmt();
+                        } else {
+                            stmt();
+                        }
+
+                    } else {
+                        System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
+                    }
+
+                } else {
+                    System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
                 }
-            }else{
-                System.out.println("( EXPECTED AT LINE"+currentToken.getLineNumber());
+
+            } else {
+                System.out.println(") EXPECTED AT LINE" + currentToken.getLineNumber());
             }
+        } else {
+            System.out.println("( EXPECTED AT LINE" + currentToken.getLineNumber());
+        }
 
 
-        System.out.println("EXITED OR KAYA");
+        System.out.println("EXITED OR KUNG");
     }
 
     // <BOOLEAN> → Yah|Nah|<RELATIONALEXPR>
@@ -562,7 +547,7 @@ public class Syntaxer {
     }
 
 	/*
-	 * Function expression_statement Parses string of the langauges generated by
+     * Function expression_statement Parses string of the langauges generated by
 	 * the rule <expr_stmt> -> <term> {(+|-) <term> }
 	 */
     // <EXPR_STMT> → <ARITHMETICEXPR> |<STRINGEXPR> |<ID>| <ASSIGNEXPR>
