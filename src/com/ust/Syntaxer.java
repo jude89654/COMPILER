@@ -353,12 +353,12 @@ public class Syntaxer {
 
                         if (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
                             currentToken = lexer.nextToken();
-                            orkungstmt();
+                            orkung_stmt();
                         }
                         if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
                             currentToken = lexer.nextToken();
-                            orkayastmt();
-                        } 
+                            orkaya_stmt();
+                        }
 
 
                     } else {
@@ -380,7 +380,7 @@ public class Syntaxer {
     }
 
 
-    public void orkayastmt() {
+    public void orkung_stmt() {
         System.out.println("ENTERED OR KAYA");
 
         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
@@ -412,7 +412,7 @@ public class Syntaxer {
 
     }
 
-    public void orkungstmt() {
+    public void orkaya_stmt() {
         System.out.println("ENTERED OR KUNG");
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
@@ -444,7 +444,7 @@ public class Syntaxer {
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         currentToken = lexer.nextToken();
                         if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
-                            orkungstmt();
+                            orkaya_stmt();
                         } else {
                             stmt();
                         }
