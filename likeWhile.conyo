@@ -1,0 +1,8 @@
+LEGGO
+
+likeWhile(banana>100){
+
+makeLimbag "banana";
+}
+
+Stop
