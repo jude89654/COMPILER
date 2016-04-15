@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String inFile = "IfEnhanced.conyo";
+        String inFile = "If.conyo";
         String outFile = "Sample.peaceOut";
 
         //try {
