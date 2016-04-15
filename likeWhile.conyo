@@ -2,7 +2,8 @@ LEGGO
 
 likeWhile(banana>100){
 
-makeLimbag "banana";
+makeLimbag "banana"|
+
 }
 
 Stop

@@ -1,7 +1,7 @@
 LEGGO
 
-ifKung(banana>apple){
-	apple= banana is 1|
+ifKung(((banana>apple)) And apple<banana OR Not banana){
+	apple is banana iAdd 1|
 }
 
 Stop 
