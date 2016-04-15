@@ -89,6 +89,10 @@ public class Lexer {
 				case '\t':
 					currentCharacter = read();
 					continue;
+                    case '-':
+						currentCharacter = read();
+						state="QnumStart";
+                        continue;
 				case '|':
 					currentCharacter = read();
 					return new Token("DELIMITER", "|", line, Token.DELIMITER);
