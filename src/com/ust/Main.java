@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String inFile = "If.conyo";
+        String inFile = "likeForWithLikeWhile.conyo";
         String outFile = "Sample.peaceOut";
 
         //try {

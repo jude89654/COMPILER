@@ -3,11 +3,11 @@ LEGGO
 
 likeFor(v is 143; v >= 121; v is v iSub 1){}
 
-g is 100;
-v is 69;
-likeWhile(g!=v)
+g is 100|
+v is 69|
+likeWhile(g != v )
 {
-g is g iSub1;
-v is v iAdd 1;
+g is g iSub 1|
+v is v iAdd 1|
 }
-Stop Na
+Stop

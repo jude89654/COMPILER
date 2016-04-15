@@ -12,7 +12,22 @@ public class Syntaxer {
     JTree parseTree = null;
 
     // mga components ng parseTree
-    DefaultMutableTreeNode nodeProgram = null;
+    DefaultMutableTreeNode programNode = null;
+    DefaultMutableTreeNode stmtNode=null;
+    DefaultMutableTreeNode gawinThisNode=null;
+    DefaultMutableTreeNode likeForNode=null;
+    DefaultMutableTreeNode whileNode=null;
+    DefaultMutableTreeNode stringNode=null;
+    DefaultMutableTreeNode orKayaNode=null;
+    DefaultMutableTreeNode orKungNode=null;
+    DefaultMutableTreeNode booleanStmtNode=null;
+    DefaultMutableTreeNode relationalStmtNode=null;
+    DefaultMutableTreeNode exprStmtNode=null;
+    DefaultMutableTreeNode operandNode=null;
+    DefaultMutableTreeNode termNode=null;
+    DefaultMutableTreeNode factorNode=null;
+    DefaultMutableTreeNode idNode=null;
+
 
 
     // Initialize Lexer
@@ -29,7 +44,7 @@ public class Syntaxer {
 	 */
 
     public JTree getParseTree() {
-        parseTree = new JTree(nodeProgram);
+        parseTree = new JTree(programNode);
         return this.parseTree;
     }
 
@@ -37,7 +52,7 @@ public class Syntaxer {
         System.out.println("PARSING STARTED");
 
         // Create the main tree node called Program
-        nodeProgram = new DefaultMutableTreeNode("Program");
+        programNode = new DefaultMutableTreeNode("Program");
 
         // Start of analysis
         currentToken = lexer.nextToken();
@@ -66,9 +81,6 @@ public class Syntaxer {
         }
     }
 
-
-    // <STMT> → <IO> | <CONDSTMT> | <ASSIGNSTMT> | <ITERSTMT>
-    // |<LOGICALOP>|<EXPR_STMT>|<DECSTMT>
     public void stmt() {
         System.out.println("ENTERED STATEMENT");
 
@@ -81,7 +93,7 @@ public class Syntaxer {
             case Token.NUMINT:
             case Token.NUMDEC:
                 currentToken = lexer.nextToken();
-                expr_stmt();
+                exprStmt();
                 break;
             case Token.STRING:
                 currentToken = lexer.nextToken();
@@ -108,6 +120,9 @@ public class Syntaxer {
                 currentToken = lexer.nextToken();
                 gawinThis_stmt();
                 break;///dsdasdasdasd
+            case Token.CLOSECURLYBRACKET:
+                currentToken=lexer.nextToken();
+                break;
             default:
                 System.out.println("INVALID TOKEN");
 
@@ -201,7 +216,18 @@ public class Syntaxer {
 
                         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
                             currentToken = lexer.nextToken();
+                            currentToken = lexer.nextToken();
+
                             stmt();
+
+                            while (currentToken.getTokenClass() == Token.DELIMITER) {
+
+                                currentToken = lexer.nextToken();
+                                if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
+
+                                stmt();
+
+                            }
                             if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                                 currentToken = lexer.nextToken();
                             }
@@ -247,7 +273,7 @@ public class Syntaxer {
 
                         currentToken = lexer.nextToken();
 
-                        if (currentToken.getTokenClass() == Token.EOF)
+                        if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET)
                             break;
 
                         stmt();
@@ -317,7 +343,7 @@ public class Syntaxer {
 
         if (currentToken.getTokenClass() == Token.IS_KEYWORD) {
             currentToken = lexer.nextToken();
-            expr_stmt();
+            exprStmt();
         }
 
         System.out.println("Exited Assignment");
@@ -514,14 +540,15 @@ public class Syntaxer {
                 |currentToken.getTokenClass()==Token.NAH_KEYWORD){
             currentToken=lexer.nextToken();
         }else {
-            expr_stmt();
+            exprStmt();
             if (currentToken.getTokenClass() == Token.GREATERTHANOREQUAL
                     | currentToken.getTokenClass() == Token.GREATERTHAN
                     | currentToken.getTokenClass() == Token.LESSTHANOREQUAL
                     | currentToken.getTokenClass() == Token.LESSTHAN
-                    | currentToken.getTokenClass() == Token.ISEQUALOP) {
+                    | currentToken.getTokenClass() == Token.ISEQUALOP
+                    |currentToken.getTokenClass()==Token.NOTEQUALOP) {
                 currentToken = lexer.nextToken();
-                expr_stmt();
+                exprStmt();
 
             }else{
                 System.out.println("RELATIONAL OPERATOR EXPECTED");
@@ -530,14 +557,14 @@ public class Syntaxer {
         System.out.println("EXITED RELATIONAL STMT");
     }
 
-    public void expr_stmt() {
+    public void exprStmt() {
         System.out.println("ENTERED EXPRESSION STATEMENT");
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
 
             currentToken = lexer.nextToken();
 
-            expr_stmt();
+            exprStmt();
 
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
                 currentToken = lexer.nextToken();
