@@ -1,6 +1,6 @@
 LEGGO
 
-	makeLimbag("Hello! It's so mainit")|
+	makeLimbag "Hello! It's so mainit" |
 	apple is 12|
 	banana is 10|
 	#si lizette ay maganda
@@ -19,19 +19,9 @@ LEGGO
 		banana is 10.12|
 	}
 
-	likeFor(i is 0 | i<12 | i is i iAdd 1)
-	{
-	apple iAdd 1|
-	}
-
 	gawinThis{
 	apple is apple iAdd 1 |
 	}likeWhile(apple<banana)
-
-	gawinLater kuninThatSum(apple,banana)
-	{
-		returnNa (apple iAdd banana)|
-	}
 
 
 

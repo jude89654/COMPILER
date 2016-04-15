@@ -47,17 +47,18 @@ public class Syntaxer {
 
             currentToken = lexer.nextToken();
             stmt();
-            while (currentToken.getTokenClass() == Token.DELIMITER & currentToken.getTokenClass() != Token.STOP_KEYWORD) {
+            while (currentToken.getTokenClass() == Token.DELIMITER | currentToken.getTokenClass() != Token.STOP_KEYWORD) {
 
                 currentToken = lexer.nextToken();
 
-                // if (currentToken.getTokenClass() == Token.continure) // break;
+                if (currentToken.getTokenClass() == Token.STOP_KEYWORD) break;
 
                 stmt();
+
             }
 
 
-             System.out.println("PARSE COMPLETE");
+            System.out.println("PARSE COMPLETE");
 
         } else {
             System.out.println("ERROR ON LINE " + currentToken.getLineNumber() + "\n LEGGO EXPECTED");
@@ -224,6 +225,23 @@ public class Syntaxer {
 
     }
 
+    void logical(){
+        System.out.println("ENTERED LOGIC");
+
+        if(currentToken.getTokenClass()== Token.NOT_KEYWORD){
+            currentToken = lexer.nextToken();
+        }
+        booleanexprstmt();
+        while(currentToken.getTokenClass()== Token.AND_KEYWORD|
+                currentToken.getTokenClass()==Token.OR_KEYWORD){
+            currentToken=lexer.nextToken();
+            if(currentToken.getTokenClass()== Token.NOT_KEYWORD){
+                currentToken=lexer.nextToken();
+            }
+            booleanexprstmt();
+        }
+        System.out.println("EXITED LOGIC");
+    }
 
     public void while_stmt() {
 
@@ -280,20 +298,18 @@ public class Syntaxer {
 
     public void string_stmt() {
         System.out.println("ENTERED STRING STMT");
-        if(currentToken.getTokenClass()==Token.VARIABLE|
-                currentToken.getTokenClass()==Token.NUMDEC|
-                currentToken.getTokenClass()==Token.STRING|
-                currentToken.getTokenClass()==Token.NUMINT) {
-            currentToken=lexer.nextToken();
-
+        if (currentToken.getTokenClass() == Token.VARIABLE |
+                currentToken.getTokenClass() == Token.NUMDEC |
+                currentToken.getTokenClass() == Token.STRING |
+                currentToken.getTokenClass() == Token.NUMINT) {
+            currentToken = lexer.nextToken();
 
 
             while (currentToken.getTokenClass() != Token.DELIMITER) {
                 currentToken = lexer.nextToken();
-                if(currentToken.getTokenClass()==Token.DELIMITER) {
+                if (currentToken.getTokenClass() == Token.DELIMITER) {
                     break;
-                }
-                else if (currentToken.getTokenClass() == Token.CONCATOP) {
+                } else if (currentToken.getTokenClass() == Token.CONCATOP) {
                     currentToken = lexer.nextToken();
                     if (currentToken.getTokenClass() == Token.VARIABLE |
                             currentToken.getTokenClass() == Token.NUMDEC |
@@ -308,7 +324,7 @@ public class Syntaxer {
             }
 
 
-            }
+        }
 
         System.out.println("EXITED STRING STMT");
 
@@ -364,10 +380,11 @@ public class Syntaxer {
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         currentToken = lexer.nextToken();
 
-                        if (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
+                        while (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
                             currentToken = lexer.nextToken();
                             orkung_stmt();
                         }
+
                         if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
                             currentToken = lexer.nextToken();
                             orkaya_stmt();
@@ -393,7 +410,7 @@ public class Syntaxer {
     }
 
 
-    public void orkung_stmt() {
+    public void orkaya_stmt() {
         System.out.println("ENTERED OR KAYA");
 
         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
@@ -425,7 +442,7 @@ public class Syntaxer {
 
     }
 
-    public void orkaya_stmt() {
+    public void orkung_stmt() {
         System.out.println("ENTERED OR KUNG");
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
@@ -485,6 +502,15 @@ public class Syntaxer {
     public void booleanexprstmt() {
         System.out.println("ENTERED BOOLEAN EXPRSTMT");
 
+        if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+            currentToken= lexer.nextToken();
+            booleanexprstmt();
+            if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+
+            }
+        }
+
+
         switch (currentToken.getTokenClass()) {
             case Token.YAH_KEYWORD:
             case Token.NAH_KEYWORD:
@@ -520,7 +546,7 @@ public class Syntaxer {
         booleanexprstmt();
         if (currentToken.getTokenClass() == Token.AND_KEYWORD
                 | currentToken.getTokenClass() == Token.OR_KEYWORD) {
-            currentToken=lexer.nextToken();
+            currentToken = lexer.nextToken();
             booleanexprstmt();
         }
 

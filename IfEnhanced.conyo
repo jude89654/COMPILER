@@ -1,0 +1,16 @@
+LEGGO
+
+ifKung((apple==12) And (melon<watermelon))
+	{
+		makeLimbag("apple is 12 and melon is less than watermelon")|
+	}
+	orKung((apple!=12) Or (melon>watermelon))
+	{
+		makeLimbag("apple is not 12 or melon is greater than watermelon")|
+	}
+	orKung(Not(apple==12))
+	{
+		makeLimbag("apple is not equal to 12")|
+	}
+	
+	stop
