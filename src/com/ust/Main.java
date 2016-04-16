@@ -26,11 +26,15 @@ public class Main {
         }
 */
 
+
+
     }
 
     public static void parse(String filename) {
         Syntaxer bungol = new Syntaxer(filename);
         bungol.program();
+        TreeViewer treeDisplayer = new TreeViewer(bungol.getParseTree());
+        treeDisplayer.setVisible(true);
 
     }
 
