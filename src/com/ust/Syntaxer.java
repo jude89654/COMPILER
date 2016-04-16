@@ -66,9 +66,16 @@ public class Syntaxer {
         if (currentToken.getLexeme().equals("LEGGO")) {
             // System.out.print("FOUND LEGGO");
 
+            programNode.add(new DefaultMutableTreeNode("LEGGO"));
+
             currentToken = lexer.nextToken();
             progbody(programNode);
 
+            if(currentToken.getTokenClass() == Token.STOP_KEYWORD){
+                programNode.add(new DefaultMutableTreeNode("Stop"));
+
+            }
+            programNode.add(new DefaultMutableTreeNode("LEGGO"));
             System.out.println("PARSE COMPLETE");
 
         } else {
@@ -396,7 +403,7 @@ public class Syntaxer {
         parent.add(ifKungNode);
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
-
+            ifKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
 
             booleanstmt(ifKungNode);
@@ -458,7 +465,7 @@ public class Syntaxer {
         parent.add(orKayaNode);
 
         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
-
+            orKayaNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
 
             stmt(orKayaNode);
@@ -476,7 +483,8 @@ public class Syntaxer {
             }
 
             if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
-                //currentToken = lexer.nextToken();
+                orKayaNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+                currentToken = lexer.nextToken();
             } else {
                 System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
             }
@@ -494,22 +502,23 @@ public class Syntaxer {
         parent.add(orKungNode);
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+            orKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
 
             booleanstmt(orKungNode);
 
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
-
+                orKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));;
                 currentToken = lexer.nextToken();
 
                 if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
-
+                    orKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                     currentToken = lexer.nextToken();
 
                     stmt(orKungNode);
 
                     while (currentToken.getTokenClass() == Token.DELIMITER) {
-
+                        orKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                         currentToken = lexer.nextToken();
 
                         if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
@@ -520,8 +529,10 @@ public class Syntaxer {
                     }
 
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
+                        orKungNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                         currentToken = lexer.nextToken();
                         if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
+                            orKayaNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                             orkaya_stmt(orKungNode);
                         } else {
                             stmt(orKungNode);
@@ -553,8 +564,10 @@ public class Syntaxer {
         parent.add(booleanStmtNode);
         if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
             currentToken=lexer.nextToken();
+            booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             booleanstmt(booleanStmtNode);
             if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+                booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 currentToken=lexer.nextToken();
             }else{
                 System.out.println(") EXPECTED AT LINE "+currentToken.getLineNumber());
@@ -562,11 +575,13 @@ public class Syntaxer {
         }
 
         if (currentToken.getTokenClass() == Token.NOT_KEYWORD) {
+            booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
         }
 
         relationalstmt(booleanStmtNode);
         while (currentToken.getTokenClass() == Token.AND_KEYWORD | currentToken.getTokenClass() == Token.OR_KEYWORD) {
+           booleanStmtNode .add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
             relationalstmt(booleanStmtNode);
 
@@ -582,6 +597,7 @@ public class Syntaxer {
 
         if(currentToken.getTokenClass()==Token.YAH_KEYWORD
                 |currentToken.getTokenClass()==Token.NAH_KEYWORD){
+            relationalStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken=lexer.nextToken();
         }else {
             exprStmt(relationalStmtNode);
@@ -591,6 +607,7 @@ public class Syntaxer {
                     | currentToken.getTokenClass() == Token.LESSTHAN
                     | currentToken.getTokenClass() == Token.ISEQUALOP
                     |currentToken.getTokenClass()==Token.NOTEQUALOP) {
+                relationalStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 currentToken = lexer.nextToken();
                 exprStmt(relationalStmtNode);
 
@@ -608,17 +625,21 @@ public class Syntaxer {
         parent.add(exprStmtNode);
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
 
+            exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+
             currentToken = lexer.nextToken();
 
             exprStmt(exprStmtNode);
 
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+                exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 currentToken = lexer.nextToken();
             }
         }
 
         operand(exprStmtNode);
         while (currentToken.getTokenClass() == Token.ADDOP | currentToken.getTokenClass() == Token.SUBOP) {
+            exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
             operand(exprStmtNode);
         }
@@ -633,6 +654,7 @@ public class Syntaxer {
         parent.add(operandNode);
         term(operandNode);
         while (currentToken.getTokenClass() == Token.POWOP) {
+            parent.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
             term(operandNode);
         }
@@ -649,7 +671,7 @@ public class Syntaxer {
         while (currentToken.getTokenClass() == Token.MULTOP
                 | currentToken.getTokenClass() == Token.DIVOP
                 | currentToken.getTokenClass() == Token.MODULOOP) {
-
+            termNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
             factor(termNode);
         }
@@ -667,7 +689,7 @@ public class Syntaxer {
 
         if (currentToken.getTokenClass() == Token.NUMINT | currentToken.getTokenClass() == Token.NUMDEC
                 | currentToken.getTokenClass() == Token.VARIABLE) {
-
+            factorNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             currentToken = lexer.nextToken();
 
         } else {
