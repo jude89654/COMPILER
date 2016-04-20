@@ -7,7 +7,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String inFile = "likeForWithLikeWhile.conyo";
+        String inFile = "Jude.conyo";
         String outFile = "Sample.peaceOut";
 
         //try {
@@ -31,10 +31,15 @@ public class Main {
     }
 
     public static void parse(String filename) {
-        Syntaxer bungol = new Syntaxer(filename);
-        bungol.program();
-        TreeViewer treeDisplayer = new TreeViewer(bungol.getParseTree());
-        treeDisplayer.setVisible(true);
+        try {
+            Syntaxer bungol = new Syntaxer(filename);
+            bungol.program();
+
+            // TreeViewer treeDisplayer = new TreeViewer(bungol.getParseTree());
+            //treeDisplayer.setVisible(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 

@@ -54,7 +54,7 @@ public class TreeNode extends Object {
     }
 
     public String toString() {
-        String details="[K=";
+        String details="[";
         if(token!=null)
             details+=token.getLexeme();
         else
