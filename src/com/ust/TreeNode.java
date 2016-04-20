@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public class TreeNode extends Object {
 
-    protected Token key;
+    protected String key;
+    protected Token token;
     protected TreeNode left, right;
     protected ArrayList<TreeNode> children =  new ArrayList<>();
     protected int level;
@@ -16,11 +17,15 @@ public class TreeNode extends Object {
 
 
     public TreeNode(Token token) {
-        key = token;
+        this.token = token;
+    }
+
+    public TreeNode(String key){
+        this.key = key;
     }
 
     public TreeNode(Token token, Token[] tokens) {
-        key = token;
+        this.token = token;
         for(Token tempToken: tokens){
             children.add(new TreeNode(tempToken));
         }
@@ -28,6 +33,12 @@ public class TreeNode extends Object {
 
     public void addChild(TreeNode treeNode){
         children.add(treeNode);
+    }
+    public void addChild(String string){
+        children.add(new TreeNode(string));
+    }
+    public void addChild(Token token){
+        children.add(new TreeNode(token));
     }
 
     public void addChildren(TreeNode[] treeNodes){
@@ -38,15 +49,20 @@ public class TreeNode extends Object {
 
 
 
-    public Token getKey() {
-        return key;
+    public Token getToken() {
+        return token;
     }
 
     public String toString() {
-        String details="[K="+key.getLexeme();
+        String details="[K=";
+        if(token!=null)
+            details+=token.getLexeme();
+        else
+            details+=key;
+
         if(!children.isEmpty()){
             for (TreeNode treeNode : children) {
-                System.out.println(key.getLexeme());
+                //System.out.println(token.getLexeme());
                 details += treeNode.toString();
             }
         } else {
@@ -58,14 +74,17 @@ public class TreeNode extends Object {
 
     public static void main(String args[]){
 
-        TreeNode a= new TreeNode(new Token("LOL","A",1,1));
+        TreeNode a= new TreeNode("A");
         TreeNode b= new TreeNode(new Token("LOL","B",1,1));
         TreeNode c= new TreeNode(new Token("LOL","C",1,1));
         TreeNode d= new TreeNode(new Token("LOL","D",1,1));
+        TreeNode x= new TreeNode("LOL");
         TreeNode jude = new TreeNode(new Token("LOL","LOL",1,1));
         jude.addChildren(new TreeNode[]{a,b});
         a.addChild(c);
-        c.addChild(d);
+        b.addChild(d);
+        b.addChild(x);
+
         System.out.println(jude.toString());
     }
     
@@ -73,13 +92,13 @@ public class TreeNode extends Object {
 
     public boolean delete(String pinapabura, TreeNode parent)
     {
-            if (pinapabura.compareTo(key)<0) {
+            if (pinapabura.compareTo(token)<0) {
                   if (left != null)
                         return left.delete(pinapabura, this);
                   else
                         return false;
             } 
-            else if (pinapabura.compareTo(key)>0) 
+            else if (pinapabura.compareTo(token)>0)
             {
                   if (right != null)
                         return right.delete(pinapabura, this);
@@ -90,8 +109,8 @@ public class TreeNode extends Object {
             {
                   if (left != null && right != null) 
                   {
-                        key = left.maxValue();
-                        left.delete(key, this);
+                        token = left.maxValue();
+                        left.delete(token, this);
                   } 
                   else if (parent.left == this) 
                   {
@@ -104,7 +123,7 @@ public class TreeNode extends Object {
       }
      public String maxValue() {
             if (right == null)
-                  return key;
+                  return token;
             else
                   return right.maxValue();
       }

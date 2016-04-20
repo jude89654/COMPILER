@@ -30,7 +30,7 @@ public class Tree extends Object {
             while (!kyu.isEmpty()) 
             {
                 node = kyu.dequeue();
-                System.out.println("K="+node.getKey()+" L="+node.level);
+                System.out.println("K="+node.getToken()+" L="+node.level);
 
                 if (node.left != null) 
                 {
@@ -99,7 +99,7 @@ public class Tree extends Object {
             stk.push(n);
             while (!stk.isEmpty()) {
                 n = (BTNode) stk.pop();
-                System.out.print(n.getKey() + " ");
+                System.out.print(n.getToken() + " ");
 
                 if (n.right != null) {
                     stk.push(n.right);
@@ -127,7 +127,7 @@ public class Tree extends Object {
         n = stk.pop(); //no left child
         while (!stk.isEmpty() && (n.right == null)) 
         {   
-            System.out.print(n.getKey() + " "); //visit it and all
+            System.out.print(n.getToken() + " "); //visit it and all
             n = stk.pop(); 
         } //nodes w/o right child
         visit(n); //1st node w/ right child or last node
@@ -140,7 +140,7 @@ else n = null; }}
        
         if(root == null) return;
         inorderRecursive(root.left);
-        System.out.print(root.getKey()+" ");
+        System.out.print(root.getToken()+" ");
         inorderRecursive( root.right );
         
     }
@@ -161,7 +161,7 @@ else n = null; }}
         {
             // Visit the top node
             node = (BTNode)s.pop();
-            System.out.print(node.getKey()+" ");
+            System.out.print(node.getToken()+" ");
             // Find the next node
             
             if (node.right != null)
@@ -188,7 +188,7 @@ else n = null; }}
             }
             while (n != null && (n.right == null) || n.right == t) 
             {
-                System.out.print(n.getKey() + " "); //visit if no right or has visited right
+                System.out.print(n.getToken() + " "); //visit if no right or has visited right
                 t = n; //prepare to move up
                 if (stk.isEmpty()) 
                 {
