@@ -22,6 +22,15 @@ public class Syntaxer {
         lexer = new Lexer(filename);
     }
 
+    public void error(String message,Token token){
+        while(currentToken.getTokenClass()!=Token.DELIMITER){
+            currentToken = lexer.nextToken();
+
+        }
+        currentToken = lexer.nextToken();
+        System.out.println(message+" AT LINE "+token.getLineNumber());
+    }
+
 
     //gusto ko lang magkaerror :D
     public void program() throws ParseError {
@@ -48,13 +57,18 @@ public class Syntaxer {
 
                 //programNode.add(new DefaultMutableTreeNode("Stop"));
                 tree.addChild(currentToken);
+                currentToken=lexer.nextToken();
+                if(currentToken!=null&&currentToken.getTokenClass()==Token.NA_KEYWORD){
+                    tree.addChild(currentToken);
+                }
                 System.out.println(tree.toString());
 
             }else{
                // throw new ParseError();
             }
-            //programNode.add(new DefaultMutableTreeNode("LEGGO"));
             System.out.println("PARSE COMPLETE");
+            //programNode.add(new DefaultMutableTreeNode("LEGGO"));
+
 
 
         } else {
