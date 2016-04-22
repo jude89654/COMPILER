@@ -3,6 +3,7 @@ package com.ust;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.*;
 
 public class Main {
@@ -14,9 +15,10 @@ public class Main {
         //    inFile = getFile();
 
 
-            parse(inFile);
+        parse(inFile);
 
-            //scanner(inFile);
+
+        //scanner(inFile);
 
 /*
         } catch (FileNotFoundException fnfe) {
@@ -27,20 +29,27 @@ public class Main {
 */
 
 
-
     }
 
     public static void parse(String filename) {
         try {
             Syntaxer bungol = new Syntaxer(filename);
             bungol.program();
+            bungol.tree.createTree();
 
-            // TreeViewer treeDisplayer = new TreeViewer(bungol.getParseTree());
-            //treeDisplayer.setVisible(true);
-        }catch(Exception e){
+            //gagawa na ng tree
+            viewTree(bungol.tree.node);
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+    //para sa pagview ng nagawang createTree
+    public static void viewTree(DefaultMutableTreeNode node){
+        TreeViewer treeViewer = new TreeViewer(new JTree(node));
+        treeViewer.setVisible(true);
     }
 
     public static void scanner(String filename) {
@@ -86,8 +95,8 @@ public class Main {
 
         return inFile;
     }
-}
 
+}
 
 class InvalidFileException extends Exception {
 

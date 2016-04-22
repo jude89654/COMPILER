@@ -10,33 +10,8 @@ public class Syntaxer {
     // yung susunod na token
     Token currentToken = null;
 
-    // yung parse tree na gagawin
-    JTree parseTree = null;
+    // yung parseTree na gagawin
     TreeNode tree = new TreeNode("PROGRAM");
-
-    // mga components ng parseTree
-    /*
-    DefaultMutableTreeNode programNode = null;
-    DefaultMutableTreeNode programBodyNode = null;
-    DefaultMutableTreeNode stmtNode = null;
-
-    DefaultMutableTreeNode gawinThisNode = null;
-    DefaultMutableTreeNode likeForNode = null;
-    DefaultMutableTreeNode whileNode = null;
-    DefaultMutableTreeNode stringNode = null;
-    DefaultMutableTreeNode assignmentNode = null;
-    DefaultMutableTreeNode ioNode = null;
-    DefaultMutableTreeNode ifKungNode = null;
-    DefaultMutableTreeNode orKayaNode = null;
-    DefaultMutableTreeNode orKungNode = null;
-    DefaultMutableTreeNode booleanStmtNode = null;
-    DefaultMutableTreeNode relationalStmtNode = null;
-    DefaultMutableTreeNode exprStmtNode = null;
-    DefaultMutableTreeNode operandNode = null;
-    DefaultMutableTreeNode termNode = null;
-    DefaultMutableTreeNode factorNode = null;
-    DefaultMutableTreeNode idNode = null;*/
-
 
     // Initialize Lexer
     Lexer lexer = null;
@@ -47,19 +22,12 @@ public class Syntaxer {
         lexer = new Lexer(filename);
     }
 
-	/*
-     * Function getParseTree para ibabalik na ang punong nabuo
-	 */
-/*
-    public JTree getParseTree() {
-        parseTree = new JTree(programNode);
-        return this.parseTree;
-    }*/
 
+    //gusto ko lang magkaerror :D
     public void program() throws ParseError {
         System.out.println("PARSING STARTED");
 
-        // Create the main tree node called Program
+        // Create the main createTree node called Program
        // programNode = new DefaultMutableTreeNode("Program");
 
         // Start of analysis
@@ -87,8 +55,7 @@ public class Syntaxer {
             }
             //programNode.add(new DefaultMutableTreeNode("LEGGO"));
             System.out.println("PARSE COMPLETE");
-            tree.addChild(currentToken);
-            System.out.println(tree.toString());
+
 
         } else {
             System.out.println("ERROR ON LINE " + currentToken.getLineNumber() + "\n LEGGO EXPECTED");
@@ -103,16 +70,19 @@ public class Syntaxer {
 
         //create a node
         TreeNode progBodyNode = new TreeNode("PROGBODY");
-        //addnode sa tree
+        //addnode sa createTree
         parent.addChild(progBodyNode);
 
         stmt(progBodyNode);
-        while (currentToken.getTokenClass() == Token.DELIMITER & currentToken.getTokenClass() != Token.STOP_KEYWORD) {
+        while (currentToken.getTokenClass() == Token.DELIMITER | currentToken.getTokenClass() != Token.STOP_KEYWORD) {
 
-            progBodyNode.addChild(currentToken);
 
-            currentToken = lexer.nextToken();
 
+            if(currentToken.getTokenClass()==Token.DELIMITER) {
+                progBodyNode.addChild(currentToken);
+                currentToken = lexer.nextToken();
+
+            }
             if (currentToken.getTokenClass() == Token.STOP_KEYWORD) break;
 
             stmt(progBodyNode);
@@ -129,49 +99,49 @@ public class Syntaxer {
 
         TreeNode stmtNode = new TreeNode("STATEMENT");
         parent.addChild(stmtNode);
+            switch (currentToken.getTokenClass()) {
+                case Token.VARIABLE:
+                    Token tempToken = currentToken;
+                    currentToken = lexer.nextToken();
+                    assignstmt(stmtNode, tempToken);
+                    break;
+                case Token.NUMINT:
+                case Token.NUMDEC:
+                    currentToken = lexer.nextToken();
+                    exprStmt(stmtNode);
+                    break;
+                case Token.STRING:
+                    currentToken = lexer.nextToken();
+                    string_stmt(stmtNode);
+                    break;
+                case Token.MAKELAGAY_KEYWORD:// IO
+                case Token.MAKELIMBAG_KEYWORD:
+                    currentToken = lexer.nextToken();
+                    IO(stmtNode);
+                    break;
+                case Token.IFKUNG_KEYWORD:
+                    currentToken = lexer.nextToken();
+                    ifKungStmt(stmtNode);
+                    break;
+                case Token.LIKEWHILE_KEYWORD:
+                    currentToken = lexer.nextToken();
+                    while_stmt(stmtNode);
+                    break;
+                case Token.LIKEFOR_KEYWORD:
+                    currentToken = lexer.nextToken();
+                    likefor(stmtNode);
+                    break;
+                case Token.GAWINTHIS_KEYWORD:
+                    currentToken = lexer.nextToken();
+                    gawinThis_stmt(stmtNode);
+                    break;///dsdasdasdasd
+                case Token.CLOSECURLYBRACKET:
+                default:
+                    System.out.println("INVALID TOKEN");
 
 
-        switch (currentToken.getTokenClass()) {
-            case Token.VARIABLE:
-                Token tempToken = currentToken;
-                currentToken = lexer.nextToken();
-                assignstmt(stmtNode,tempToken);
-                break;
-            case Token.NUMINT:
-            case Token.NUMDEC:
-                currentToken = lexer.nextToken();
-                exprStmt(stmtNode);
-                break;
-            case Token.STRING:
-                currentToken = lexer.nextToken();
-                string_stmt(stmtNode);
-                break;
-            case Token.MAKELAGAY_KEYWORD:// IO
-            case Token.MAKELIMBAG_KEYWORD:
-                currentToken = lexer.nextToken();
-                IO(stmtNode);
-                break;
-            case Token.IFKUNG_KEYWORD:
-                currentToken = lexer.nextToken();
-                ifKungStmt(stmtNode);
-                break;
-            case Token.LIKEWHILE_KEYWORD:
-                currentToken = lexer.nextToken();
-                while_stmt(stmtNode);
-                break;
-            case Token.LIKEFOR_KEYWORD:
-                currentToken = lexer.nextToken();
-                likefor(stmtNode);
-                break;
-            case Token.GAWINTHIS_KEYWORD:
-                currentToken = lexer.nextToken();
-                gawinThis_stmt(stmtNode);
-                break;///dsdasdasdasd
-            case Token.CLOSECURLYBRACKET:
-            default:
-                System.out.println("INVALID TOKEN");
+            }
 
-        }
         System.out.println("EXITED STATEMENT");
     }
 
@@ -311,7 +281,7 @@ public class Syntaxer {
 
         System.out.println("ENTERED WHILESTMT");
 
-        TreeNode whileNode = new TreeNode("WHILE");
+        TreeNode whileNode = new TreeNode("LIKEWHILE");
         parent.addChild(whileNode);
 
 
@@ -331,14 +301,13 @@ public class Syntaxer {
                     currentToken = lexer.nextToken();
 
                     stmt(whileNode);
-
                     while (currentToken.getTokenClass() == Token.DELIMITER) {
+
                         whileNode.addChild(currentToken);
 
                         currentToken = lexer.nextToken();
 
-                        if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET)
-                            break;
+                        if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
 
                         stmt(whileNode);
 
@@ -349,10 +318,10 @@ public class Syntaxer {
 
                         currentToken = lexer.nextToken();
 
-                    } else {
+                   } else {
 
                         System.out.println("} EXPECTED at line " + currentToken.getLineNumber());
-                    }
+                   }
 
                 } else {
                     System.out.println("{ EXPECTED at line " + currentToken.getLineNumber());
@@ -371,24 +340,19 @@ public class Syntaxer {
 
     public void string_stmt(TreeNode parent) {
         System.out.println("ENTERED STRING STMT");
-        TreeNode stringNode = new TreeNode("StringEXPR");
+        TreeNode stringNode = new TreeNode("STRINGEXPR");
         parent.addChild(stringNode);
 
         if (currentToken.getTokenClass() == Token.VARIABLE |
                 currentToken.getTokenClass() == Token.NUMDEC |
                 currentToken.getTokenClass() == Token.STRING |
                 currentToken.getTokenClass() == Token.NUMINT) {
+            stringNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
-
-            while (currentToken.getTokenClass() != Token.DELIMITER) {
+            while (currentToken.getTokenClass() == Token.CONCATOP) {
                 stringNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
-                if (currentToken.getTokenClass() == Token.DELIMITER) {
-                    break;
-                } else if (currentToken.getTokenClass() == Token.CONCATOP) {
-                    stringNode.addChild(currentToken);
-                    currentToken = lexer.nextToken();
                     if (currentToken.getTokenClass() == Token.VARIABLE |
                             currentToken.getTokenClass() == Token.NUMDEC |
                             currentToken.getTokenClass() == Token.STRING |
@@ -396,17 +360,12 @@ public class Syntaxer {
                         stringNode.addChild(currentToken);
                         currentToken = lexer.nextToken();
                     }
-                } else {
-                    System.out.println("CONCAT OP EXPECTED");
                 }
             }
-            if(currentToken.getTokenClass()==Token.DELIMITER){
-                stringNode.addChild(currentToken);
-                currentToken=lexer.nextToken();
-            }
 
 
-        }
+
+
 
         System.out.println("EXITED STRING STMT");
 
@@ -417,7 +376,10 @@ public class Syntaxer {
 
         TreeNode assignmentNode = new TreeNode("ASSIGNMENT");
         parent.addChild(assignmentNode);
-        assignmentNode.addChild(token);
+        TreeNode variable = new TreeNode("VARIABLE");
+        assignmentNode.addChild(variable);
+        variable.addChild(token);
+
 
         if (currentToken.getTokenClass() == Token.IS_KEYWORD) {
 
@@ -433,15 +395,22 @@ public class Syntaxer {
     public void IO(TreeNode parent) {
         System.out.println("ENTERED IO");
 
-        TreeNode IONode = new TreeNode("ioNode");
+        TreeNode IONode = new TreeNode("INPUT/OUTPUT");
         parent.addChild(IONode);
-
         IONode.addChild(currentToken);
-        //ioNode = new DefaultMutableTreeNode("IO");
-        //parent.add(ioNode);
+
+        if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
+            IONode.addChild(currentToken);
+            currentToken = lexer.nextToken();
+            string_stmt(IONode);
+            if(currentToken.getTokenClass()==Token.CLOSEPARENTHESIS){
+                IONode.addChild(currentToken);
+                currentToken=lexer.nextToken();
+            }
+        }
 
 
-        string_stmt(IONode);
+
 
         System.out.println("EXITED IO");
 
@@ -474,9 +443,10 @@ public class Syntaxer {
 
                     while (currentToken.getTokenClass() == Token.DELIMITER) {
 
+                       ifKungNode.addChild(currentToken);
+
                         currentToken = lexer.nextToken();
                         if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
-
                         stmt(ifKungNode);
 
                     }
@@ -486,13 +456,13 @@ public class Syntaxer {
                         currentToken = lexer.nextToken();
 
                         while (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
-                            ifKungNode.addChild(currentToken);
+
                             currentToken = lexer.nextToken();
                             orkung_stmt(ifKungNode);
                         }
 
                         if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
-                            ifKungNode.addChild(currentToken);
+                            //ifKungNode.addChild(currentToken);
                             currentToken = lexer.nextToken();
                             orkaya_stmt(ifKungNode);
                         }
@@ -516,13 +486,11 @@ public class Syntaxer {
         System.out.println("EXITED IF KUNG");
     }
 
-    public void orkaya_stmt(TreeNode parent) {
+    public void orkaya_stmt(TreeNode parent) {//else if
         System.out.println("ENTERED OR KAYA");
         TreeNode orKayaNode= new TreeNode("ORKAYA");
         parent.addChild(orKayaNode);
-
-
-
+        orKayaNode.addChild("orKaya");
         //orKayaNode = new DefaultMutableTreeNode("OR KAYA");
        // parent.add(orKayaNode);
 
@@ -562,8 +530,8 @@ public class Syntaxer {
         System.out.println("ENTERED OR KUNG");
 
         TreeNode orKungNode = new TreeNode("ORKUNGSTMT");
-        //parent.add(orKungNode);
-
+        parent.addChild(orKungNode);
+        orKungNode.addChild("orKung");
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
             orKungNode.addChild(currentToken);
             currentToken = lexer.nextToken();
@@ -578,13 +546,15 @@ public class Syntaxer {
 
                 if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
                     orKungNode.addChild(currentToken);
+
                     currentToken = lexer.nextToken();
 
                     stmt(orKungNode);
 
                     while (currentToken.getTokenClass() == Token.DELIMITER) {
-                        orKungNode.addChild(currentToken);
+
                         currentToken = lexer.nextToken();
+
 
                         if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                             //System.out.println("UNEXPECTED END OF FILE");
@@ -596,11 +566,7 @@ public class Syntaxer {
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         orKungNode.addChild(currentToken);
                         currentToken = lexer.nextToken();
-                        if (currentToken.getTokenClass() == Token.ORKAYA_KEYWORD) {
-                            TreeNode orKayaNode= new TreeNode(currentToken);
-                            parent.addChild(orKayaNode);
-                            orkaya_stmt(orKayaNode);
-                        }
+
 
                     } else {
                         System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
@@ -626,11 +592,19 @@ public class Syntaxer {
         System.out.println("ENTERED BOOLEAN STMT");
         TreeNode booleanStmtNode = new TreeNode("BOOLEANSTMT");
         parent.addChild(booleanStmtNode);
+        if (currentToken.getTokenClass() == Token.NOT_KEYWORD) {
+            //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+            booleanStmtNode.addChild(currentToken);
+
+            currentToken = lexer.nextToken();
+        }
+
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
             booleanStmtNode.addChild(currentToken);
             currentToken = lexer.nextToken();
             //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
             booleanstmt(booleanStmtNode);
+
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
                 //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 booleanStmtNode.addChild(currentToken);
@@ -640,12 +614,6 @@ public class Syntaxer {
             }
         }
 
-        if (currentToken.getTokenClass() == Token.NOT_KEYWORD) {
-            //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
-            booleanStmtNode.addChild(currentToken);
-
-            currentToken = lexer.nextToken();
-        }
 
         relationalstmt(booleanStmtNode);
         while (currentToken.getTokenClass() == Token.AND_KEYWORD | currentToken.getTokenClass() == Token.OR_KEYWORD) {
@@ -663,6 +631,21 @@ public class Syntaxer {
         System.out.println("ENTERED RELATIONAL STMT");
        TreeNode relationalStmtNode = new TreeNode("RELATIONALSTMT");
         parent.addChild(relationalStmtNode);
+
+        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+            relationalStmtNode.addChild(currentToken);
+            currentToken = lexer.nextToken();
+            //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+            relationalstmt(relationalStmtNode);
+
+            if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+                //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+                relationalStmtNode.addChild(currentToken);
+                currentToken = lexer.nextToken();
+            } else {
+                System.out.println(") EXPECTED AT LINE " + currentToken.getLineNumber());
+            }
+        }
 
         if (currentToken.getTokenClass() == Token.YAH_KEYWORD
                 | currentToken.getTokenClass() == Token.NAH_KEYWORD) {
@@ -759,10 +742,14 @@ public class Syntaxer {
 
         if (currentToken.getTokenClass() == Token.NUMINT | currentToken.getTokenClass() == Token.NUMDEC
                 | currentToken.getTokenClass() == Token.VARIABLE) {
-            factorNode.addChild(currentToken);
-            currentToken = lexer.nextToken();
+            id(factorNode);
+            //currentToken = lexer.nextToken(); //redundant kasi
 
-        } else {
+        } else if(currentToken.getTokenClass()==Token.STRING){
+            string_stmt(factorNode);
+            currentToken=lexer.nextToken();
+        }else
+        {
             System.out.println("NUMBER OR IDENTIFIER EXPECTED AT LINE:" + currentToken.getLineNumber());
         }
 
@@ -773,10 +760,12 @@ public class Syntaxer {
 
     public void id(TreeNode parent) {
         System.out.println("ENTERED ID");
+        TreeNode idNode = new TreeNode("id");
+        parent.addChild(idNode);
         int tokenClass = currentToken.getTokenClass();
 
         if (tokenClass == Token.VARIABLE | tokenClass == Token.NUMDEC | tokenClass == Token.NUMINT) {
-            parent.addChild(currentToken);
+            idNode.addChild(currentToken);
             currentToken = lexer.nextToken();
         } else {
             System.out.println("INVALID ID");

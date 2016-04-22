@@ -44,27 +44,27 @@ LEGGO
 	{
 		apple is apple iAdd 1|
 	}
-	orKung(apple>12)
+	orKaya(apple>12)
 	{
 		apple is apple|
 	}
-	orKung(apple!=guava)
+	orKaya(apple!=guava)
 	{
 		apple is apple iAdd melon|
 	}
-	orKung(apple<melon)
+	orKaya(apple<melon)
 	{
 		apple is apple iSub banana|
 	}
-	orKung(apple>=banana)
+	orKaya(apple>=banana)
 	{
 		apple is watermelon iMod banana|
 	}
-	orKung(apple<=melon)
+	orKaya(apple<=melon)
 	{
 		apple is melon iTimes guava|
 	}
-	orKaya
+	orKung
 	{
 		apple is apple iSub 1|
 	}
@@ -74,11 +74,11 @@ LEGGO
 	{
 		makeLimbag("apple is 12 and melon is less than watermelon")|
 	}
-	orKung((apple!=12) Or (melon>watermelon))
+	orKaya((apple!=12) Or (melon>watermelon))
 	{
 		makeLimbag("apple is not 12 or melon is greater than watermelon")|
 	}
-	orKung(Not(apple==12))
+	orKung
 	{
 		makeLimbag("apple is not equal to 12")|
 	}

@@ -16,6 +16,8 @@ public class TreeViewer extends JFrame{
 
     //Tree Components
     JTree myTree = null;
+
+
     JScrollPane scrollPane = null;
 
     TreeViewer(JTree theTree){
@@ -24,8 +26,11 @@ public class TreeViewer extends JFrame{
 
         this.setTitle("Parse Tree");
         this.setSize(400,400);
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.add(scrollPane);
     }
+
+
+
 }

@@ -56,6 +56,8 @@ public class Lexer {
 		return symbol.contains("" + x);
 	}
 
+
+	//kukunin ang susunod na token :D
 	public Token nextToken() {
 
 		String state = "Qstart"; // Initial state
@@ -65,8 +67,8 @@ public class Lexer {
 		boolean skipped = false;
 
 		while (true) {
-
-			// System.out.println(currentCharacter + " " + state + " " + line);
+            // System.out.pri
+			// System.out.println(mgaNabasangLetra + " " + state + " " + line);
 			if (currentCharacter == EOF && !skipped) {
 				skipped = true;
 			} else if (skipped) {
@@ -223,10 +225,10 @@ public class Lexer {
 
 				// identifier or keyword -start
 			case "QidStart":
-				if (currentCharacter == 's') {
+				if (currentCharacter == 'S') {
 					mgaNabasangLetra = "";
 					mgaNabasangLetra += currentCharacter;
-					state = "Qs";
+					state = "QS";
 					currentCharacter = read();
 				} else if (currentCharacter == 'Q') {
 					mgaNabasangLetra = "";
@@ -308,34 +310,34 @@ public class Lexer {
 				}
 				continue;
 				// Check Kung stopNa
-			case "Qs":
+			case "QS":
 				if (currentCharacter == 't') {
-					state = "Qst";
+					state = "QSt";
 					mgaNabasangLetra += currentCharacter;
 					currentCharacter = read();
 				} else {
 					state = "QidBody";
 				}
 				continue;
-			case "Qst":
+			case "QSt":
 				if (currentCharacter == 'o') {
-					state = "Qsto";
+					state = "QSto";
 					mgaNabasangLetra += currentCharacter;
 					currentCharacter = read();
 				} else {
 					state = "QidBody";
 				}
 				continue;
-			case "Qsto":
+			case "QSto":
 				if (currentCharacter == 'p') {
-					state = "Qstop";
+					state = "QStop";
 					mgaNabasangLetra += currentCharacter;
 					currentCharacter = read();
 				} else {
 					state = "QidBody";
 				}
 				continue;
-			case "Qstop":
+			case "QStop":
 				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
 					return new Token("KEYWORD", mgaNabasangLetra, line, Token.STOP_KEYWORD);
 				} else {
