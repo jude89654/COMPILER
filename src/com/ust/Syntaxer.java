@@ -165,9 +165,10 @@ public class Syntaxer {
 
         TreeNode gawinThisNode = new TreeNode("GAWINTHISSTMT");
         parent.addChild(gawinThisNode);
+        gawinThisNode.addChild("gawinThis");
 
         if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
-            parent.addChild(currentToken);
+            gawinThisNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
             stmt(gawinThisNode);
