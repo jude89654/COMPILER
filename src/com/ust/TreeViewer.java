@@ -22,6 +22,9 @@ public class TreeViewer extends JFrame{
 
     TreeViewer(JTree theTree){
         myTree = theTree;
+        for(int x=0;x<myTree.getRowCount();x++){
+            myTree.expandRow(x);
+        }
         scrollPane = new JScrollPane(myTree);
 
         this.setTitle("Parse Tree");

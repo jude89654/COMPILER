@@ -14,6 +14,17 @@ public class Main {
         //try {
         //    inFile = getFile();
 
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                System.out.println(info.getName());
+                if ("Classic".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         parse(inFile);
 

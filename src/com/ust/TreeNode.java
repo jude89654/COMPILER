@@ -23,8 +23,8 @@ public class TreeNode extends Object {
         node = new DefaultMutableTreeNode(token.getLexeme());
     }
     public TreeNode(String key){
-        this.key = key;
-        node = new DefaultMutableTreeNode(key);
+        this.key = key.toUpperCase();
+        node = new DefaultMutableTreeNode(this.key);
     }
 
     public TreeNode(Token token, Token[] tokens) {

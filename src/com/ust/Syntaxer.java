@@ -22,11 +22,16 @@ public class Syntaxer {
         lexer = new Lexer(filename);
     }
 
-    public void error(String message,Token token){
-        while(currentToken.getTokenClass()!=Token.DELIMITER){
+    public void error(String message,Token token,TreeNode parent){
+        while(currentToken.getTokenClass()!=Token.DELIMITER
+                &currentToken.getTokenClass()!=Token.CLOSEPARENTHESIS
+                &currentToken.getTokenClass()!=Token.CLOSECURLYBRACKET){
+
+
             currentToken = lexer.nextToken();
 
         }
+        parent.addChild(currentToken);
         currentToken = lexer.nextToken();
         System.out.println(message+" AT LINE "+token.getLineNumber());
     }
@@ -96,6 +101,8 @@ public class Syntaxer {
                 progBodyNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
 
+            }else{
+                error("|",currentToken,progBodyNode);
             }
             if (currentToken.getTokenClass() == Token.STOP_KEYWORD) break;
 
@@ -111,8 +118,9 @@ public class Syntaxer {
         //stmtNode = new DefaultMutableTreeNode("Statement");
         //parent.add(stmtNode);
 
-        TreeNode stmtNode = new TreeNode("STATEMENT");
-        parent.addChild(stmtNode);
+
+            TreeNode stmtNode = new TreeNode("STATEMENT");
+            parent.addChild(stmtNode);
             switch (currentToken.getTokenClass()) {
                 case Token.VARIABLE:
                     Token tempToken = currentToken;
@@ -130,8 +138,9 @@ public class Syntaxer {
                     break;
                 case Token.MAKELAGAY_KEYWORD:// IO
                 case Token.MAKELIMBAG_KEYWORD:
+                    Token IOToken = currentToken;
                     currentToken = lexer.nextToken();
-                    IO(stmtNode);
+                    IO(stmtNode,IOToken);
                     break;
                 case Token.IFKUNG_KEYWORD:
                     currentToken = lexer.nextToken();
@@ -152,10 +161,11 @@ public class Syntaxer {
                 case Token.CLOSECURLYBRACKET:
                 default:
                     System.out.println("INVALID TOKEN");
+                    error("INVALID TOKEN ",currentToken,stmtNode);
+                break;
 
 
-            }
-
+        }
         System.out.println("EXITED STATEMENT");
     }
 
@@ -203,23 +213,28 @@ public class Syntaxer {
                             currentToken = lexer.nextToken();
 
                         } else {
-                            System.out.println("CLOSE PARENTHESIS EXPECTED at line " + currentToken.getLineNumber());
+                           // System.out.println("CLOSE PARENTHESIS EXPECTED at line " + currentToken.getLineNumber());
+                            error(") EXPECTED ",currentToken,gawinThisNode);
                         }
 
                     } else {
-                        System.out.println("( EXPECTED at LINE " + currentToken.getLineNumber());
+                        //System.out.println("( EXPECTED at LINE " + currentToken.getLineNumber());
+                        error("( ",currentToken,gawinThisNode);
                     }
 
                 } else {
-                    System.out.println("EXPECTED WHILE AT LINE" + currentToken.getLineNumber());
+                    error("LIKEWHILE ",currentToken,gawinThisNode);
+                    //System.out.println("EXPECTED WHILE AT LINE" + currentToken.getLineNumber());
                 }
 
             } else {
-                System.out.println("} EXPECTED AT LINE " + currentToken.getLineNumber());
+                error("} ",currentToken,gawinThisNode);
+                //System.out.println("} EXPECTED AT LINE " + currentToken.getLineNumber());
             }
 
         } else {
-            System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
+            error("} ",currentToken,gawinThisNode);
+            //System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
         }
 
         System.out.println("EXITED GAWIN THIS");
@@ -271,21 +286,31 @@ public class Syntaxer {
                             if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                                 likeForNode.addChild(currentToken);
                                 currentToken = lexer.nextToken();
+                            }else{
+                                error("}",currentToken,likeForNode);
                             }
+
+                        }else{
+                            error("{",currentToken,likeForNode);
                         }
 
+                    }else{
+                        error(")",currentToken,likeForNode);
                     }
 
                 } else {
+                    error(";",currentToken,likeForNode);
                     System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
                 }
 
 
             } else {
+                error(";",currentToken,likeForNode);
                 System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
             }
 
         } else {
+            error("(",currentToken,likeForNode);
             System.out.println("( EXPECTED at line " + currentToken.getLineNumber());
         }
         System.out.println("EXITED FOR");
@@ -376,7 +401,10 @@ public class Syntaxer {
                         currentToken = lexer.nextToken();
                     }
                 }
-            }
+
+            }else{
+            error("NUMBER OR STRINg",currentToken,stringNode);
+        }
 
 
 
@@ -407,12 +435,12 @@ public class Syntaxer {
         System.out.println("Exited Assignment");
     }
 
-    public void IO(TreeNode parent) {
+    public void IO(TreeNode parent, Token token) {
         System.out.println("ENTERED IO");
 
         TreeNode IONode = new TreeNode("INPUT/OUTPUT");
         parent.addChild(IONode);
-        IONode.addChild(currentToken);
+        IONode.addChild(token);
 
         if(currentToken.getTokenClass()==Token.OPENPARENTHESIS){
             IONode.addChild(currentToken);
@@ -422,6 +450,8 @@ public class Syntaxer {
                 IONode.addChild(currentToken);
                 currentToken=lexer.nextToken();
             }
+        }else{
+            error("STRING EXPR",currentToken,IONode);
         }
 
 
@@ -484,18 +514,22 @@ public class Syntaxer {
 
 
                     } else {
+                        error("}",currentToken,ifKungNode);
                         System.out.println("} EXPECTED AFTER STATEMENTS A");
                     }
 
                 } else {
+                    error("{",currentToken,ifKungNode);
                     System.out.print("{ EXPECTED AT LINE " + currentToken.getLineNumber());
                 }
 
             } else {
+                error(")",currentToken,ifKungNode);
                 System.out.println(") EXPECTED AT LINE " + currentToken.getLineNumber());
             }
 
         } else {
+            error("(",currentToken,ifKungNode);
             System.out.println("( EXPECTED AT LINE " + currentToken.getLineNumber());
         }
         System.out.println("EXITED IF KUNG");
@@ -532,9 +566,11 @@ public class Syntaxer {
                 //orKayaNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 currentToken = lexer.nextToken();
             } else {
+                error("}",currentToken,orKayaNode);
                 System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
             }
         } else {
+            error("{",currentToken,orKayaNode);
             System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
         }
         System.out.println("ORKAYA EXITED");
@@ -584,17 +620,24 @@ public class Syntaxer {
 
 
                     } else {
+                        error("}",currentToken,orKungNode);
                         System.out.println("} EXPECTED AT LINE" + currentToken.getLineNumber());
                     }
 
                 } else {
+
+                    error("{",currentToken,orKungNode);
                     System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
                 }
 
             } else {
+
+                error(")",currentToken,orKungNode);
                 System.out.println(") EXPECTED AT LINE" + currentToken.getLineNumber());
             }
         } else {
+
+            error("(",currentToken,orKungNode);
             System.out.println("( EXPECTED AT LINE" + currentToken.getLineNumber());
         }
 
@@ -625,6 +668,8 @@ public class Syntaxer {
                 booleanStmtNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
             } else {
+
+                error(")",currentToken,booleanStmtNode);
                 System.out.println(") EXPECTED AT LINE " + currentToken.getLineNumber());
             }
         }
@@ -658,6 +703,8 @@ public class Syntaxer {
                 relationalStmtNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
             } else {
+
+                error(")",currentToken,relationalStmtNode);
                 System.out.println(") EXPECTED AT LINE " + currentToken.getLineNumber());
             }
         }
@@ -679,6 +726,8 @@ public class Syntaxer {
                 exprStmt(relationalStmtNode);
 
             } else {
+
+                error("RELATIONAL OP",currentToken,relationalStmtNode);
                 System.out.println("RELATIONAL OPERATOR EXPECTED");
             }
         }
@@ -702,6 +751,8 @@ public class Syntaxer {
                 exprStmtNode.addChild(currentToken);
                 //exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
                 currentToken = lexer.nextToken();
+            }else{
+                error("(",currentToken,exprStmtNode);
             }
         }
 
@@ -775,7 +826,7 @@ public class Syntaxer {
 
     public void id(TreeNode parent) {
         System.out.println("ENTERED ID");
-        TreeNode idNode = new TreeNode("id");
+        TreeNode idNode = new TreeNode("ID");
         parent.addChild(idNode);
         int tokenClass = currentToken.getTokenClass();
 
@@ -783,6 +834,7 @@ public class Syntaxer {
             idNode.addChild(currentToken);
             currentToken = lexer.nextToken();
         } else {
+            error("ID",currentToken,idNode);
             System.out.println("INVALID ID");
         }
         System.out.println("EXITED ID");

@@ -1,6 +1,6 @@
 LEGGO
 
-ifKung((apple==12) And (melon<watermelon))
+ifKung((apple==12) And  is (melon<watermelon))
 	{
 		makeLimbag("apple is 12 and melon is less than watermelon")|
 	}
