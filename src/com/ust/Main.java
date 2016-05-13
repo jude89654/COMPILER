@@ -11,10 +11,10 @@ public class Main {
         String inFile = "If.conyo";
         String outFile = "Sample.peaceOut";
 
-        //try {
-        //    inFile = getFile();
-
         try {
+         inFile = getFile();
+
+        //try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 System.out.println(info.getName());
                 if ("Classic".equals(info.getName())) {
@@ -44,7 +44,7 @@ public class Main {
 
     public static void parse(String filename) {
         try {
-            Syntaxer bungol = new Syntaxer(filename);
+            Parser bungol = new Parser(filename);
             bungol.startParse();
             bungol.tree.createTree();
 

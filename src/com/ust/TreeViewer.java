@@ -30,7 +30,6 @@ public class TreeViewer extends JFrame{
         this.setTitle("Parse Tree");
         this.setSize(400,400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         this.add(scrollPane);
     }
 

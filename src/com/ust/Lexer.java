@@ -1284,7 +1284,7 @@ public class Lexer {
 
 					currentCharacter = read();
 
-					return new Token("STRING", "\"" + mgaNabasangLetra + "\"", line, Token.STRING);
+					return new Token("STRING", "" + mgaNabasangLetra + "", line, Token.STRING);
 				} else if (currentCharacter == '\n' || currentCharacter == EOF) {// pag
 																					// end
 																					// of

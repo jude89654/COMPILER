@@ -10,6 +10,8 @@ public class Identifier {
     int intvalue;
 
 
+    public int scope;
+
     public Identifier(){
         this.type = null;
         this.index = 0;
