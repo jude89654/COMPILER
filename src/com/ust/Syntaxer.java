@@ -23,27 +23,27 @@ public class Syntaxer {
     }
 
     public void error(String message,Token token,TreeNode parent){
+        System.out.println("ERROR!!! "+message+"EXPECTED AT LINE "+token.getLineNumber());
         while(currentToken.getTokenClass()!=Token.DELIMITER
                 &currentToken.getTokenClass()!=Token.CLOSEPARENTHESIS
-                &currentToken.getTokenClass()!=Token.CLOSECURLYBRACKET){
-
-
+                &currentToken.getTokenClass()!=Token.CLOSECURLYBRACKET
+                &currentToken.getTokenClass()!=Token.OPENPARENTHESIS
+                &currentToken.getTokenClass()!=Token.OPENCURLYBRACKET
+                &currentToken.getTokenClass()!=Token.EOF){
             currentToken = lexer.nextToken();
-
         }
         parent.addChild(currentToken);
         currentToken = lexer.nextToken();
-        System.out.println(message+" AT LINE "+token.getLineNumber());
+        stmt(parent);
     }
 
 
     //gusto ko lang magkaerror :D
-    public void program() throws ParseError {
+    public void startParse() throws ParseError {
         System.out.println("PARSING STARTED");
 
         // Create the main createTree node called Program
        // programNode = new DefaultMutableTreeNode("Program");
-
         // Start of analysis
         currentToken = lexer.nextToken();
 
@@ -66,7 +66,8 @@ public class Syntaxer {
                 if(currentToken!=null&&currentToken.getTokenClass()==Token.NA_KEYWORD){
                     tree.addChild(currentToken);
                 }
-                System.out.println(tree.toString());
+
+              tree.toString();
 
             }else{
                // throw new ParseError();
@@ -95,10 +96,10 @@ public class Syntaxer {
         stmt(progBodyNode);
         while (currentToken.getTokenClass() == Token.DELIMITER | currentToken.getTokenClass() != Token.STOP_KEYWORD) {
 
-
-
             if(currentToken.getTokenClass()==Token.DELIMITER) {
+
                 progBodyNode.addChild(currentToken);
+
                 currentToken = lexer.nextToken();
 
             }else{
@@ -158,7 +159,21 @@ public class Syntaxer {
                     currentToken = lexer.nextToken();
                     gawinThis_stmt(stmtNode);
                     break;///dsdasdasdasd
+                case Token.OPENCURLYBRACKET:
+                    currentToken=lexer.nextToken();
+                    progbody(parent);
+                    if(currentToken.getTokenClass()==Token.CLOSECURLYBRACKET){
+                        currentToken=lexer.nextToken();
+                    }else{
+                        error("}",currentToken,parent);
+                    }
+
                 case Token.CLOSECURLYBRACKET:
+                case Token.STOP_KEYWORD:
+                case Token.DELIMITER:
+                    parent.addChild(currentToken);
+                    currentToken=lexer.nextToken();
+                        break;
                 default:
                     System.out.println("INVALID TOKEN");
                     error("INVALID TOKEN ",currentToken,stmtNode);
@@ -233,7 +248,7 @@ public class Syntaxer {
             }
 
         } else {
-            error("} ",currentToken,gawinThisNode);
+            error("{ ",currentToken,gawinThisNode);
             //System.out.println("{ EXPECTED AT LINE" + currentToken.getLineNumber());
         }
 
@@ -403,7 +418,7 @@ public class Syntaxer {
                 }
 
             }else{
-            error("NUMBER OR STRINg",currentToken,stringNode);
+            error("NUMBER OR STRING",currentToken,stringNode);
         }
 
 
@@ -816,6 +831,7 @@ public class Syntaxer {
             currentToken=lexer.nextToken();
         }else
         {
+            error("IDENTIFIER",currentToken,parent);
             System.out.println("NUMBER OR IDENTIFIER EXPECTED AT LINE:" + currentToken.getLineNumber());
         }
 

@@ -8,7 +8,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String inFile = "Jude.conyo";
+        String inFile = "If.conyo";
         String outFile = "Sample.peaceOut";
 
         //try {
@@ -45,7 +45,7 @@ public class Main {
     public static void parse(String filename) {
         try {
             Syntaxer bungol = new Syntaxer(filename);
-            bungol.program();
+            bungol.startParse();
             bungol.tree.createTree();
 
             //gagawa na ng tree

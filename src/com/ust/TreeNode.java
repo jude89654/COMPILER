@@ -13,7 +13,8 @@ public class TreeNode extends Object {
     public DefaultMutableTreeNode node;
     protected String key;
     protected Token token;
-    protected TreeNode left, right;
+    protected  TreeNode                                                                                                                                                                                                                                                                                                                                                                                                                                         root;
+    //protected TreeNode left, right;
     protected JTree jtree = new JTree(node);
     protected ArrayList<TreeNode> children =  new ArrayList<>();
     protected int level;
@@ -103,7 +104,6 @@ public class TreeNode extends Object {
     public String toString() {
         String details="[";
         if(token!=null)
-
             details+=token.getLexeme();
         else
             details+=key;

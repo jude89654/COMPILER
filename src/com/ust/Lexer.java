@@ -9,6 +9,7 @@ public class Lexer {
 	private BufferedReader reader; // Reader
 	private char currentCharacter; // The current character being scanned
 	public static int line = 1;
+	public static int column=0;
 	private static final char EOF = (char) (-1);
 
 	// End of file character
@@ -659,39 +660,10 @@ public class Lexer {
 				}
 				continue;
 			case "Qlike":
-				if (currentCharacter == 'F') {
-					state = "QlikeF";
-					mgaNabasangLetra += currentCharacter;
-					currentCharacter = read();
-				} else if (currentCharacter == 'W') {
+				if (currentCharacter == 'W') {
 					state = "QlikeW";
 					mgaNabasangLetra += currentCharacter;
 					currentCharacter = read();
-				} else {
-					state = "QidBody";
-				}
-				continue;
-			case "QlikeF":
-				if (currentCharacter == 'o') {
-					state = "QlikeFo";
-					mgaNabasangLetra += currentCharacter;
-					currentCharacter = read();
-				} else {
-					state = "QidBody";
-				}
-				continue;
-			case "QlikeFo":
-				if (currentCharacter == 'r') {
-					state = "QlikeFor";
-					mgaNabasangLetra += currentCharacter;
-					currentCharacter = read();
-				} else {
-					state = "QidBody";
-				}
-				continue;
-			case "QlikeFor":
-				if (!isSymbol(currentCharacter) & !isNumeric(currentCharacter) & !isAlpha(currentCharacter)) {
-					return new Token("KEYWORD", mgaNabasangLetra, line, Token.LIKEFOR_KEYWORD);
 				} else {
 					state = "QidBody";
 				}

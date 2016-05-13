@@ -70,7 +70,7 @@ public class Token {
         this.lexeme = lexeme;
         this.lineNumber = lineNumber;
         this.tokenClass = tokenClass;
-        System.out.println("FOUND \""+lexeme.toUpperCase()+"\"\t AT LINE "+lineNumber  );
+        System.out.println("FOUND \""+lexeme+"\"\t AT LINE "+lineNumber  );
     }
 
     // Returns the type of the token
@@ -99,4 +99,5 @@ public class Token {
                         + getLexeme()
                         + "\tlineNumber:" + getLineNumber();
     }
+
 }
