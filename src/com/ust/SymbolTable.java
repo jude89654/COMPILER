@@ -54,8 +54,7 @@ public class SymbolTable {
         Iterator<Map.Entry<String,SymbolTableEntry>> itr = linkedHashMap.entrySet().iterator();
         while (itr.hasNext()) {
             Map.Entry<String,SymbolTableEntry> entry = itr.next();
-            String key = entry.getKey();
-            System.out.println("id " + key);
+
             SymbolTableEntry list = entry.getValue();
             System.out.println( list.toString());
         }

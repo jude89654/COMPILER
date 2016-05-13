@@ -509,25 +509,28 @@ public class Parser {
             currentToken = lexer.nextToken();
             exprStmt(assignmentNode);
 
-            System.out.println(infix);
-            String postfix = StackExpr.infixToPostfix(infix);
-            System.out.println(postfix);
-
-
             double value;
+            System.out.println(infix);
             try {
-                value = Integer.parseInt(StackExpr.postfixEvaluation(postfix));
-            } catch (NumberFormatException nfe) {
-                value = Double.parseDouble(StackExpr.postfixEvaluation(postfix));
+                String postfix = StackExpr.infixToPostfix(infix);
+                System.out.println(postfix);
+                try {
+                    value = Integer.parseInt(StackExpr.postfixEvaluation(postfix));
+                } catch (NumberFormatException nfe) {
+                    value = Double.parseDouble(StackExpr.postfixEvaluation(postfix));
+                }
+            } catch (Exception e) {
+                SymbolTableEntry symbolTableEntry = new SymbolTableEntry(id, 0, outputstmt);
+                mgasimbolo.addToTable(symbolTableEntry);
+                return;
             }
+
             //lagay sa symbol table
             SymbolTableEntry symbolTableEntry = new SymbolTableEntry(id, 0, value);
 
 
             mgasimbolo.addToTable(symbolTableEntry);
         }
-
-
 
 
         System.out.println("Exited Assignment");
@@ -545,7 +548,7 @@ public class Parser {
             // infix+=" (";
             IONode.addChild(currentToken);
             currentToken = lexer.nextToken();
-            string_stmt(IONode,"");
+            string_stmt(IONode, "");
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
 
                 IONode.addChild(currentToken);
@@ -579,7 +582,7 @@ public class Parser {
                 IONode.addChild(currentToken);
                 currentToken = lexer.nextToken();
             }
-            System.out.println("OUTPUT--------"+outputstmt);
+            System.out.println("OUTPUT--------" + outputstmt);
         } else {
             error("STRING EXPR", currentToken, IONode);
         }
