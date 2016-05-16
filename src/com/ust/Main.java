@@ -12,7 +12,7 @@ public class Main {
         String outFile = "Sample.peaceOut";
 
         try {
-         inFile = getFile();
+         //inFile = getFile();
 
         //try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

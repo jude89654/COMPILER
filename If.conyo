@@ -12,12 +12,12 @@ banana is banana|
 
 likeWhile(banana > 10){
     likeWhile(banana> isGood){
-        banana is banana +1 |
+        banana is banana iAdd 1 |
     }
 }
 
-if(banana == 10+1){
+ifKung(banana == 10 iAdd 1){
     makeLimbag("HOY")|
 }
 
-Stop 
+Stop Na
