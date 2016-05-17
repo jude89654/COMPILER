@@ -17,14 +17,14 @@ public class StackExpr {
         int t=(Integer.parseInt(JOptionPane.showInputDialog("input value for t")));
         if (t==1)
         {
-            String s= JOptionPane.showInputDialog("INPUT POSTFIX EXPRESSION");
+            String s= JOptionPane.showInputDialog("inputStmt POSTFIX EXPRESSION");
             System.out.println(s);
             System.out.println(postfixToInfix(s));
             
         }
         else if(t==2)
         {
-            String s= JOptionPane.showInputDialog("INPUT POSTFIX EXPRESSION");
+            String s= JOptionPane.showInputDialog("inputStmt POSTFIX EXPRESSION");
             System.out.println(s);
             System.out.println(postfixEvaluation(s));
         }
@@ -34,7 +34,7 @@ public class StackExpr {
         }
         else if (t==4)
         {
-             String s= JOptionPane.showInputDialog("INPUT INFIX EXPRESSION");
+             String s= JOptionPane.showInputDialog("inputStmt INFIX EXPRESSION");
             System.out.println("infix: "+s);
             System.out.println("postfix: "+infixToPostfix(s));
             System.out.println("eval: "+postfixEvaluation(infixToPostfix(s)));
@@ -43,7 +43,7 @@ public class StackExpr {
         }
         else
         {
-            String s= JOptionPane.showInputDialog("INPUT INFIX EXPRESSION");
+            String s= JOptionPane.showInputDialog("inputStmt INFIX EXPRESSION");
             System.out.println(s);
             
            
