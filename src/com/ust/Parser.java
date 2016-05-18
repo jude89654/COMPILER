@@ -104,24 +104,14 @@ public class Parser {
         //parent.add(programBodyNode);
 
         //create a node
-        TreeNode progBodyNode = new TreeNode("STATEMENTS");
+        TreeNode progBodyNode = new TreeNode("<STATEMENTS>");
         //addnode sa createTree
         parent.addChild(progBodyNode);
 
-        if(currentToken.getTokenClass()==Token.OPENCURLYBRACKET){
-            progBodyNode.addChild("{");
-            System.out.println("OPEN CURLY---------------");
-            currentToken=lexer.nextToken();
-            statements(progBodyNode);
-            if(currentToken.getTokenClass()==Token.CLOSECURLYBRACKET){
-                progBodyNode.addChild("{");
-                System.out.print("-----------------CLOSE CURLY");
-                currentToken=lexer.nextToken();
-            }
-        }
+
 
         stmt(progBodyNode);
-        while (currentToken.getTokenClass() == Token.DELIMITER & currentToken.getTokenClass() != Token.STOP_KEYWORD) {
+        while (currentToken.getTokenClass() != Token.STOP_KEYWORD) {
 
             if (currentToken.getTokenClass() == Token.DELIMITER) {
 
@@ -183,10 +173,7 @@ public class Parser {
                 currentToken = lexer.nextToken();
                 while_stmt(stmtNode);
                 break;
-            case Token.LIKEFOR_KEYWORD:
-                currentToken = lexer.nextToken();
-                likefor(stmtNode);
-                break;
+
             case Token.GAWINTHIS_KEYWORD:
                 currentToken = lexer.nextToken();
                 gawinThis_stmt(stmtNode);
@@ -287,83 +274,6 @@ public class Parser {
         System.out.println("EXITED GAWIN THIS");
     }
 
-    public void likefor(TreeNode parent) {
-        System.out.print("ENTERED FOR");
-        TreeNode likeForNode = new TreeNode("LIKE FOR");
-        parent.addChild(likeForNode);
-        //parent.add(likeForNode);
-
-        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
-            likeForNode.addChild(currentToken);
-            currentToken = lexer.nextToken();
-
-            stmt(likeForNode);
-
-            if (currentToken.getTokenClass() == Token.SEMICOLON) {
-                likeForNode.addChild(currentToken);
-                currentToken = lexer.nextToken();
-
-                booleanstmt(likeForNode);
-
-                if (currentToken.getTokenClass() == Token.SEMICOLON) {
-                    likeForNode.addChild(currentToken);
-                    currentToken = lexer.nextToken();
-
-                    stmt(likeForNode);
-
-                    if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
-                        likeForNode.addChild(currentToken);
-                        currentToken = lexer.nextToken();
-
-                        if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
-                            likeForNode.addChild(currentToken);
-                            currentToken = lexer.nextToken();
-
-
-                            stmt(likeForNode);
-
-                            while (currentToken.getTokenClass() == Token.DELIMITER) {
-                                likeForNode.addChild(currentToken);
-                                currentToken = lexer.nextToken();
-                                if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
-
-                                stmt(likeForNode);
-
-                            }
-                            if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
-                                likeForNode.addChild(currentToken);
-                                currentToken = lexer.nextToken();
-                            } else {
-                                error("}", currentToken, likeForNode);
-                            }
-
-                        } else {
-                            error("{", currentToken, likeForNode);
-                        }
-
-                    } else {
-                        error(")", currentToken, likeForNode);
-                    }
-
-                } else {
-                    error(";", currentToken, likeForNode);
-                    System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
-                }
-
-
-            } else {
-                error(";", currentToken, likeForNode);
-                System.out.println("; EXPECTED at line " + currentToken.getLineNumber());
-            }
-
-        } else {
-            error("(", currentToken, likeForNode);
-            System.out.println("( EXPECTED at line " + currentToken.getLineNumber());
-        }
-        System.out.println("EXITED FOR");
-
-    }
-
     public void while_stmt(TreeNode parent) {
 
         System.out.println("ENTERED WHILESTMT");
@@ -382,10 +292,22 @@ public class Parser {
                 whileNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
 
-
+                if(currentToken.getTokenClass()==Token.OPENCURLYBRACKET) {
+                    whileNode.addChild(currentToken);
+                    currentToken = lexer.nextToken();
 
                     statements(whileNode);
 
+                    if(currentToken.getTokenClass()==Token.CLOSECURLYBRACKET){
+                        whileNode.addChild(currentToken);
+                        currentToken = lexer.nextToken();
+
+                    }else{
+                        error("}", currentToken, whileNode);
+                    }
+                }else{
+                    error("{", currentToken,whileNode);
+                }
             } else {
                 System.out.println(") EXPECTED at line " + currentToken.getLineNumber());
             }
@@ -407,11 +329,11 @@ public class Parser {
         }*/
 
 
-        if (currentToken.getTokenClass() == Token.VARIABLE |
+       if (currentToken.getTokenClass() == Token.VARIABLE |
                 currentToken.getTokenClass() == Token.NUMDEC |
                 currentToken.getTokenClass() == Token.STRING |
                 currentToken.getTokenClass() == Token.NUMINT) {
-            switch (currentToken.getTokenClass()) {
+            /* switch (currentToken.getTokenClass()) {
                 case Token.VARIABLE:
                     if (mgasimbolo.checkIdentifier(currentToken)) {
                         //add yung value ng variable sa outputstmt
@@ -427,7 +349,7 @@ public class Parser {
                     outputstmt += currentToken.getLexeme();
                     break;
             }
-
+*/
             stringNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
@@ -592,27 +514,19 @@ public class Parser {
                 ifKungNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
 
-               // if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
-                 //   ifKungNode.addChild(currentToken);
+               if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
+                    ifKungNode.addChild(currentToken);
 
-//                    currentToken = lexer.nextToken();
+                   currentToken = lexer.nextToken();
 
                     statements(ifKungNode);
 
-                    /*
-                    while (currentToken.getTokenClass() == Token.DELIMITER) {
 
-                        ifKungNode.addChild(currentToken);
-
-                        currentToken = lexer.nextToken();
-                        if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) break;
-                        stmt(ifKungNode);
-
-                    }
+                    //statements(ifKungNode);
 
                     if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         ifKungNode.addChild(currentToken);
-                        currentToken = lexer.nextToken();*/
+                        currentToken = lexer.nextToken();
 
                         while (currentToken.getTokenClass() == Token.ORKUNG_KEYWORD) {
 
@@ -627,7 +541,7 @@ public class Parser {
                         }
 
 
-                  /*  } else {
+                    } else {
                         error("}", currentToken, ifKungNode);
                         System.out.println("} EXPECTED AFTER STATEMENTS A");
                     }
@@ -635,7 +549,7 @@ public class Parser {
                 } else {
                     error("{", currentToken, ifKungNode);
                     System.out.print("{ EXPECTED AT LINE " + currentToken.getLineNumber());
-                }*/
+                }
 
             } else {
                 error(")", currentToken, ifKungNode);
@@ -830,8 +744,8 @@ public class Parser {
                 | currentToken.getTokenClass()==Token.VARIABLE ) {
             relationalStmtNode.addChild(currentToken);
             currentToken = lexer.nextToken();
-        } else {
-            exprStmt(relationalStmtNode);
+
+
             if (currentToken.getTokenClass() == Token.GREATERTHANOREQUAL
                     | currentToken.getTokenClass() == Token.GREATERTHAN
                     | currentToken.getTokenClass() == Token.LESSTHANOREQUAL
@@ -842,12 +756,13 @@ public class Parser {
                 currentToken = lexer.nextToken();
                 exprStmt(relationalStmtNode);
 
-            } else {
-
-                error("RELATIONAL OP", currentToken, relationalStmtNode);
-                System.out.println("RELATIONAL OPERATOR EXPECTED");
             }
-        }
+
+
+
+
+        }// else {
+        //}
         System.out.println("EXITED RELATIONAL STMT");
     }
 

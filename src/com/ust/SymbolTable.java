@@ -15,48 +15,50 @@ public class SymbolTable {
     private static LinkedHashMap<String, SymbolTableEntry> linkedHashMap = new LinkedHashMap<>();
 
 
-    public static boolean checkIdentifier(Token token){
+    public static boolean checkIdentifier(Token token) {
         return linkedHashMap.containsKey(token.getLexeme());
     }
 
 
-    public static boolean checkIdentifier(String name, Identifier id){
+    public static boolean checkIdentifier(String name, Identifier id) {
 
         return linkedHashMap.containsKey(name);
 
     }
-    public static SymbolTableEntry getValue(String name){
+
+    public static SymbolTableEntry getValue(String name) {
         return linkedHashMap.get(name);
     }
 
-    public static SymbolTableEntry getValue(Token token){
+    public static SymbolTableEntry getValue(Token token) {
         return getValue(token.getLexeme());
     }
-    public static void addToTable(SymbolTableEntry symbolTableEntry){
-        linkedHashMap.put(symbolTableEntry.getId(),symbolTableEntry);
+
+    public static void addToTable(SymbolTableEntry symbolTableEntry) {
+        linkedHashMap.put(symbolTableEntry.getId(), symbolTableEntry);
     }
 
-    public static void addToTable(String name, SymbolTableEntry symbol){
+    public static void addToTable(String name, SymbolTableEntry symbol) {
         counter++;
         //id.setIndex(counter);
-        linkedHashMap.put(name,  symbol);
+        linkedHashMap.put(name, symbol);
     }
 
-    public static void addToTable(Token token){
+    public static void addToTable(Token token) {
         counter++;
         //TODO linkedHashMap.put(token.getLexeme(),token.getTokenClass());
 
     }
 
-    public static void showTable(){
+    public static void showTable() {
 
         System.out.println("----------------SYMBOL TABLE----------------");
-        Iterator<Map.Entry<String,SymbolTableEntry>> itr = linkedHashMap.entrySet().iterator();
+        Iterator<Map.Entry<String, SymbolTableEntry>> itr = linkedHashMap.entrySet().iterator();
         while (itr.hasNext()) {
-            Map.Entry<String,SymbolTableEntry> entry = itr.next();
+            Map.Entry<String, SymbolTableEntry> entry = itr.next();
 
             SymbolTableEntry list = entry.getValue();
-            System.out.println( list.toString());
+            System.out.println(list.toString());
         }
     }
 

@@ -53,15 +53,39 @@ public class Token {
     static final int NOTEQUALOP=147;
     static final int STRING = 148;
     static final int COMMENT=149;
-
     static final int GREATERTHANOREQUAL=150;
     static final int LESSTHANOREQUAL=151;
     static final int SEMICOLON = 152;
+    static final int BOOLEAN = 153;
+
+
+
+    public String getType(){
+        switch (tokenClass) {
+            case VARIABLE:
+                tokenType = "VARIABLE";
+                break;
+            case NUMDEC:
+                tokenType = "NUMDEC";
+                break;
+            case STRING:
+                tokenType = "STRING";
+                break;
+            case BOOLEAN:
+                tokenType = "BOOLEAN";
+                break;
+            default:
+                tokenType = "KEYWORD";
+                break;
+        }
+        return tokenType;
+    }
 
     private String token; // Type of of token
     private String lexeme; // The lexeme
     private int lineNumber;
     public int tokenClass;
+    public String tokenType;
 
     private static int counter = 0;
 
