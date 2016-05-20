@@ -132,6 +132,21 @@ public class TreeNode extends Object {
 
     }
 
+    public String printTerminals(){
+        String details="";
+
+        if(!children.isEmpty()){
+            for (TreeNode treeNode : children) {
+                node.add(treeNode.node);
+                details+=treeNode.printTerminals();
+            }
+        }else{
+            details+=" "+key;
+        }
+
+        return details;
+    }
+
     public JTree getJTree(){
         return new JTree(node);
     }

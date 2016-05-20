@@ -40,7 +40,9 @@ public class SymbolTableEntry {
     }
 
     public String toString(){
-        return "id: "+id+"\t\t value:"+value;
+        return "id: "+id+"\t\ttype:"+type+"\t\tvalue:"+value;
     }
+
+
 
 }

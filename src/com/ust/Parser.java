@@ -89,7 +89,6 @@ public class Parser {
             }
             System.out.println("PARSE COMPLETE");
             //programNode.add(new DefaultMutableTreeNode("LEGGO"));
-            mgasimbolo.showTable();
             tree.toString();
 
         } else {

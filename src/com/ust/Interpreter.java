@@ -1,7 +1,5 @@
 package com.ust;
 
-import sun.reflect.generics.tree.Tree;
-
 import java.util.Scanner;
 
 /**
@@ -22,6 +20,8 @@ public class Interpreter {
 
     public void program(TreeNode treeNode){
         statementsInterpret(treeNode.getChildren().get(1));
+
+        System.out.println(treeNode.printTerminals());
 
         symbolTable.showTable();
     }
@@ -53,10 +53,10 @@ public class Interpreter {
                 //TODO gawinThisInterpret();
                 break;
             case "<OUTPUTSTMT>":
-                //TODO outputInterpret();
+                outputStatementInterpret(node);
                 break;
             case "<IFSTMT>":
-                //TODO ifStmtInterpret();
+                //ifStmtInterpret(node);
                 break;
             case "<INPUTSTMT>":
                 inputStatementInterpret(node);
@@ -69,63 +69,63 @@ public class Interpreter {
         }
     }
     void inputStatementInterpret(TreeNode node){
-
-
-
+        //for the scanning of the input
         Scanner sc = new Scanner(System.in);
         String identifier =node.getChildren().get(2).getKey();
-
-
+        //prompt
         System.out.println("input value for \""+identifier+"\": ");
 
         String laman = sc.nextLine().trim();
 
-
-
         SymbolTableEntry symbolTableEntry = new SymbolTableEntry(identifier,"","");
-
-
         //check kung anong data type yung ininput
         int value;
         double value1;
+        String type;
         try{
             value = Integer.parseInt(laman);
-
             symbolTableEntry.value=value;
+            symbolTableEntry.type="INTEGER";
         }catch(NumberFormatException n){
             try {
                 value1 = Double.parseDouble(laman);
                 symbolTableEntry.value=value1;
+                symbolTableEntry.type="DECIMAL";
             }catch(Exception e){
                 symbolTableEntry.value=laman;
+                symbolTableEntry.type="STRING";
             }
         }
 
         //lagay na sa symbol table
         symbolTable.addToTable(symbolTableEntry);
-
-
     }
 
-    String ExpressionInterpret(TreeNode node){
-        String expression = "";
+    void outputStatementInterpret(TreeNode node){
+        String toBeOutputted="";
+        String toBeProcessed=node.getChildren().get(2).printTerminals();
+        System.out.println(toBeProcessed);
+    }
 
+    void booleanExpressionInterpret(TreeNode node){
+
+        //boolean bulyan =
+
+        node.printTerminals();
         for(TreeNode child : node.getChildren()){
 
-            switch(child.getKey()){
-                case "<OPERAND>":
-                    operandInterpret(child);
-                    break;
 
-                default:
-                    expression+="";
-                    break;
-            }
 
         }
+    }
+
+    void ExpressionInterpret(TreeNode node){
+        String expression = "";
+        System.out.println(node.printTerminals());
 
 
-        return expression;
+
+        //return expression;
     }
 
     String operandInterpret(TreeNode node){
@@ -149,6 +149,11 @@ public class Interpreter {
     }
 
     void Expression(TreeNode node){
+
+    }
+
+    void RelationalExpressionInterpret(TreeNode node){
+
 
     }
 

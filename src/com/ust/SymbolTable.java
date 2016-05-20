@@ -27,7 +27,11 @@ public class SymbolTable {
     }
 
     public static SymbolTableEntry getValue(String name) {
-        return linkedHashMap.get(name);
+
+        SymbolTableEntry entry = linkedHashMap.get(name);
+        entry.isUsed=true;
+        addToTable(entry);
+        return entry;
     }
 
     public static SymbolTableEntry getValue(Token token) {

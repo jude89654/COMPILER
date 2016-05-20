@@ -1,34 +1,11 @@
 LEGGO
 
-makeLagay(banana)|
 
 
-ifKung(banana == 10){
-    makeLimbag("SAS")|
 
-}
-
-banana is banana|
-
-banana is banana|
-
-likeWhile(banana > 10){
-
-    likeWhile(banana> isGood){
-        banana is (banana iAdd 1) iSub 2 . banana|
-    }
-
-}
+makeLimbag(78 . jude . cool )|
 
 
-ifKung(banana == 10 iAdd 1){
-    makeLimbag("HOY")|
-}
-
-gawinThis{
-    makeLimbag(banana . "lol")|
-}
-likeWhile(banana)
 
 
 Stop Na
