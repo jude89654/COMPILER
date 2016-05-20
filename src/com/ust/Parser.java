@@ -22,7 +22,7 @@ public class Parser {
     String outputstmt = "";
 
     //for booleanexpressions
-    String bool="";
+    String bool = "";
 
 
     // Constructor
@@ -109,7 +109,6 @@ public class Parser {
         parent.addChild(progBodyNode);
 
 
-
         stmt(progBodyNode);
         while (currentToken.getTokenClass() != Token.STOP_KEYWORD) {
 
@@ -121,7 +120,8 @@ public class Parser {
 
             }
 
-            if (currentToken.getTokenClass() == Token.STOP_KEYWORD|currentToken.getTokenClass()==Token.CLOSECURLYBRACKET) break;
+            if (currentToken.getTokenClass() == Token.STOP_KEYWORD | currentToken.getTokenClass() == Token.CLOSECURLYBRACKET)
+                break;
 
             stmt(progBodyNode);
 
@@ -136,7 +136,7 @@ public class Parser {
         //parent.add(stmtNode);
 
 
-        TreeNode stmtNode = new TreeNode("STATEMENT");
+        TreeNode stmtNode = new TreeNode("<STATEMENT>");
         parent.addChild(stmtNode);
         switch (currentToken.getTokenClass()) {
             case Token.VARIABLE:
@@ -203,11 +203,12 @@ public class Parser {
         System.out.println("EXITED STATEMENT");
     }
 
+
     public void gawinThis_stmt(TreeNode parent) {
 
         System.out.println("ENTERED GAWIN THIS");
 
-        TreeNode gawinThisNode = new TreeNode("GAWINTHISSTMT");
+        TreeNode gawinThisNode = new TreeNode("<GAWINTHISSTMT>");
         parent.addChild(gawinThisNode);
         gawinThisNode.addChild("gawinThis");
 
@@ -278,7 +279,7 @@ public class Parser {
 
         System.out.println("ENTERED WHILESTMT");
 
-        TreeNode whileNode = new TreeNode("LIKEWHILE");
+        TreeNode whileNode = new TreeNode("<WHILESTMT>");
         parent.addChild(whileNode);
 
 
@@ -292,21 +293,21 @@ public class Parser {
                 whileNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
 
-                if(currentToken.getTokenClass()==Token.OPENCURLYBRACKET) {
+                if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
                     whileNode.addChild(currentToken);
                     currentToken = lexer.nextToken();
 
                     statements(whileNode);
 
-                    if(currentToken.getTokenClass()==Token.CLOSECURLYBRACKET){
+                    if (currentToken.getTokenClass() == Token.CLOSECURLYBRACKET) {
                         whileNode.addChild(currentToken);
                         currentToken = lexer.nextToken();
 
-                    }else{
+                    } else {
                         error("}", currentToken, whileNode);
                     }
-                }else{
-                    error("{", currentToken,whileNode);
+                } else {
+                    error("{", currentToken, whileNode);
                 }
             } else {
                 System.out.println(") EXPECTED at line " + currentToken.getLineNumber());
@@ -321,7 +322,7 @@ public class Parser {
 
     public void string_stmt(TreeNode parent, String strings) {
         System.out.println("ENTERED STRING STMT");
-        TreeNode stringNode = new TreeNode("STRINGEXPR");
+        TreeNode stringNode = new TreeNode("<STRINGEXPR>");
         parent.addChild(stringNode);
        /* outputstmt = "";
         if (!strings.equals("")) {
@@ -329,7 +330,7 @@ public class Parser {
         }*/
 
 
-       if (currentToken.getTokenClass() == Token.VARIABLE |
+        if (currentToken.getTokenClass() == Token.VARIABLE |
                 currentToken.getTokenClass() == Token.NUMDEC |
                 currentToken.getTokenClass() == Token.STRING |
                 currentToken.getTokenClass() == Token.NUMINT) {
@@ -379,7 +380,7 @@ public class Parser {
     public void assignstmt(TreeNode parent, Token token) {
         System.out.println("Entered Assignment");
 
-        TreeNode assignmentNode = new TreeNode("ASSIGNMENT");
+        TreeNode assignmentNode = new TreeNode("<ASSIGNSTMT>");
         parent.addChild(assignmentNode);
         TreeNode variable = new TreeNode("VARIABLE");
         assignmentNode.addChild(variable);
@@ -426,8 +427,6 @@ public class Parser {
             }*/
 
             //lagay sa symbol table
-            
-
 
 
         }
@@ -439,7 +438,7 @@ public class Parser {
     public void inputStmt(TreeNode parent, Token token) {
         System.out.println("ENTERED inputStmt");
 
-        TreeNode IONode = new TreeNode("inputStmt");
+        TreeNode IONode = new TreeNode("<INPUTSTMT>");
         parent.addChild(IONode);
         IONode.addChild(token);
 
@@ -448,9 +447,10 @@ public class Parser {
             // infix+=" (";
             IONode.addChild(currentToken);
             currentToken = lexer.nextToken();
-            if(currentToken.getTokenClass()==Token.VARIABLE) {
+            if (currentToken.getTokenClass() == Token.VARIABLE) {
+                IONode.addChild(currentToken);
 
-                currentToken=lexer.nextToken();
+                currentToken = lexer.nextToken();
 
                 if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
 
@@ -470,7 +470,7 @@ public class Parser {
         System.out.println("ENTERED outputStmt");
 
 
-        TreeNode IONode = new TreeNode("outputStmt");
+        TreeNode IONode = new TreeNode("<OUTPUTSTMT>");
 
         parent.addChild(IONode);
         IONode.addChild(token);
@@ -499,7 +499,7 @@ public class Parser {
     public void ifKungStmt(TreeNode parent) {
         System.out.println("ENTERED IF KUNG");
 
-        TreeNode ifKungNode = new TreeNode("IFKUNGSTMT");
+        TreeNode ifKungNode = new TreeNode("<IFSTMT>");
 
         parent.addChild(ifKungNode);
         ifKungNode.addChild(new Token("", "ifKung", Token.IFKUNG_KEYWORD, Token.IFKUNG_KEYWORD));
@@ -514,10 +514,10 @@ public class Parser {
                 ifKungNode.addChild(currentToken);
                 currentToken = lexer.nextToken();
 
-               if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
+                if (currentToken.getTokenClass() == Token.OPENCURLYBRACKET) {
                     ifKungNode.addChild(currentToken);
 
-                   currentToken = lexer.nextToken();
+                    currentToken = lexer.nextToken();
 
                     statements(ifKungNode);
 
@@ -565,7 +565,7 @@ public class Parser {
 
     public void orkaya_stmt(TreeNode parent) {//else if
         System.out.println("ENTERED OR KAYA");
-        TreeNode orKayaNode = new TreeNode("ORKAYA");
+        TreeNode orKayaNode = new TreeNode("<ELSESTMT>");
         parent.addChild(orKayaNode);
         orKayaNode.addChild("orKaya");
         //orKayaNode = new DefaultMutableTreeNode("OR KAYA");
@@ -608,7 +608,7 @@ public class Parser {
     public void orkung_stmt(TreeNode parent) {
         System.out.println("ENTERED OR KUNG");
 
-        TreeNode orKungNode = new TreeNode("ORKUNGSTMT");
+        TreeNode orKungNode = new TreeNode("<ELSEIFSTMT>");
         parent.addChild(orKungNode);
         orKungNode.addChild("orKung");
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
@@ -676,7 +676,7 @@ public class Parser {
     //FOR THE LOGICAL AND RELATIONAL AMBIGUITY
     public void booleanstmt(TreeNode parent) {
         System.out.println("ENTERED BOOLEAN STMT");
-        TreeNode booleanStmtNode = new TreeNode("BOOLEANSTMT");
+        TreeNode booleanStmtNode = new TreeNode("<BOOLEANSTMT>");
         parent.addChild(booleanStmtNode);
         if (currentToken.getTokenClass() == Token.NOT_KEYWORD) {
 
@@ -719,7 +719,7 @@ public class Parser {
 
     public void relationalstmt(TreeNode parent) {
         System.out.println("ENTERED RELATIONAL STMT");
-        TreeNode relationalStmtNode = new TreeNode("RELATIONALSTMT");
+        TreeNode relationalStmtNode = new TreeNode("<RELATIONALSTMT>");
         parent.addChild(relationalStmtNode);
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
@@ -741,7 +741,7 @@ public class Parser {
 
         if (currentToken.getTokenClass() == Token.YAH_KEYWORD
                 | currentToken.getTokenClass() == Token.NAH_KEYWORD
-                | currentToken.getTokenClass()==Token.VARIABLE ) {
+                | currentToken.getTokenClass() == Token.VARIABLE) {
             relationalStmtNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
@@ -759,8 +759,6 @@ public class Parser {
             }
 
 
-
-
         }// else {
         //}
         System.out.println("EXITED RELATIONAL STMT");
@@ -769,34 +767,10 @@ public class Parser {
     public void exprStmt(TreeNode parent) {
         System.out.println("ENTERED EXPRESSION STATEMENT");
 
-        TreeNode exprStmtNode = new TreeNode("EXPRSTMT");
+        TreeNode exprStmtNode = new TreeNode("<EXPRSTMT>");
 
         parent.addChild(exprStmtNode);
 
-        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
-            infix += " (";
-            exprStmtNode.addChild(currentToken);
-            //exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
-
-            currentToken = lexer.nextToken();
-
-            exprStmt(exprStmtNode);
-
-            if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
-                infix += " )";
-
-                exprStmtNode.addChild(currentToken);
-
-                //exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
-
-                currentToken = lexer.nextToken();
-
-            } else {
-
-                error("(", currentToken, exprStmtNode);
-
-            }
-        }
 
         operand(exprStmtNode);
         while (currentToken.getTokenClass() == Token.ADDOP | currentToken.getTokenClass() == Token.SUBOP) {
@@ -813,9 +787,10 @@ public class Parser {
 
     }
 
+
     public void operand(TreeNode parent) {
         System.out.println("ENTERED OPERAND STATEMENT");
-        TreeNode operandNode = new TreeNode("OPERAND");
+        TreeNode operandNode = new TreeNode("<OPERAND>");
         parent.addChild(operandNode);
         term(operandNode);
         while (currentToken.getTokenClass() == Token.POWOP) {
@@ -825,14 +800,14 @@ public class Parser {
             term(operandNode);
         }
 
-        
+
         System.out.println("EXITED OPERAND STATEMENT");
     }
 
     public void term(TreeNode parent) {
         System.out.println("ENTERED TERM");
 
-        TreeNode termNode = new TreeNode("TERM");
+        TreeNode termNode = new TreeNode("<TERM>");
         parent.addChild(termNode);
 
         factor(termNode);
@@ -853,7 +828,7 @@ public class Parser {
                 case Token.MODULOOP:
                     infix += " *";
                     break;
-                	
+
             }
 
 
@@ -870,7 +845,7 @@ public class Parser {
 
         System.out.println("ENTERED FACTOR");
 
-        TreeNode factorNode = new TreeNode("factor");
+        TreeNode factorNode = new TreeNode("<FACTOR>");
         parent.addChild(factorNode);
 
         if (currentToken.getTokenClass() == Token.NUMINT | currentToken.getTokenClass() == Token.NUMDEC
@@ -881,7 +856,29 @@ public class Parser {
         } else if (currentToken.getTokenClass() == Token.STRING) {
             string_stmt(factorNode, infix);
             //currentToken = lexer.nextToken();
-        } else {
+        } else if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
+
+            factorNode.addChild(currentToken);
+
+            currentToken = lexer.nextToken();
+
+            exprStmt(factorNode);
+
+            if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
+                infix += " )";
+
+                factorNode.addChild(currentToken);
+
+                //exprStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
+
+                currentToken = lexer.nextToken();
+
+            } else {
+
+                error("(", currentToken, factorNode);
+
+            }
+        } else  {
             error("IDENTIFIER", currentToken, parent);
             System.out.println("NUMBER OR IDENTIFIER EXPECTED AT LINE:" + currentToken.getLineNumber());
         }
@@ -893,33 +890,25 @@ public class Parser {
 
     public void id(TreeNode parent) {
         System.out.println("ENTERED ID");
-        TreeNode idNode = new TreeNode("ID");
+        TreeNode idNode = new TreeNode("<ID>");
         parent.addChild(idNode);
         int tokenClass = currentToken.getTokenClass();
 
         if (tokenClass == Token.NUMDEC | tokenClass == Token.NUMINT) {
-            //infix += " " + currentToken.getLexeme();
-            //System.out.println("INFIX:"+infix);
 
             idNode.addChild(currentToken);
             currentToken = lexer.nextToken();
+
         } else if (tokenClass == Token.VARIABLE) {
 
-            //checheck niya kung nasa symbol table yung id
-           // if (mgasimbolo.checkIdentifier(currentToken)) {
+            idNode.addChild(currentToken);
+            currentToken = lexer.nextToken();
 
-                //kukunin yung value ng id
-                //infix += " " + mgasimbolo.getValue(currentToken.getLexeme()).value;
+            if (currentToken.getTokenClass() == Token.CONCATOP) {
                 currentToken = lexer.nextToken();
-                //kung string ba;
-                if(currentToken.getTokenClass()==Token.CONCATOP){
-                	currentToken = lexer.nextToken();
-                	string_stmt(parent,infix);
-                }
-           // } else {
-         //       System.out.println("ERROR! - VARIABLE" + currentToken.getLexeme() + "NOT INITIALIZED");
-           //     System.exit(0);
-          //  }
+                string_stmt(parent, infix);
+            }
+
 
         } else {
             error("ID", currentToken, idNode);

@@ -1,5 +1,7 @@
 LEGGO
 
+makeLagay(banana)|
+
 
 ifKung(banana == 10){
     makeLimbag("SAS")|
@@ -13,7 +15,7 @@ banana is banana|
 likeWhile(banana > 10){
 
     likeWhile(banana> isGood){
-        banana is banana iAdd 1 |
+        banana is (banana iAdd 1) iSub 2|
     }
 
 }
@@ -24,7 +26,7 @@ ifKung(banana == 10 iAdd 1){
 }
 
 gawinThis{
-    makeLimbag(banana)|
+    makeLimbag(banana . "lol")|
 }
 likeWhile(banana)
 

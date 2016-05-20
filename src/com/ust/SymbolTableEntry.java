@@ -19,6 +19,8 @@ public class SymbolTableEntry {
     //mga attributes ng entry
     public String id;
     public int type;
+    public boolean isUsed = false;
+
     public Object value;
 
 
