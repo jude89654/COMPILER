@@ -431,7 +431,9 @@ public class Parser {
             IONode.addChild(currentToken);
             currentToken = lexer.nextToken();
             if (currentToken.getTokenClass() == Token.VARIABLE) {
-                IONode.addChild(currentToken);
+                TreeNode variableNode = new TreeNode("VARIABLE");
+                IONode.addChild(variableNode);
+                variableNode.addChild(currentToken);
 
                 currentToken = lexer.nextToken();
 
@@ -795,6 +797,7 @@ public class Parser {
 
         factor(termNode);
         if(currentToken.getTokenClass()==Token.CONCATOP){
+            parent.addChild(currentToken);
             currentToken = lexer.nextToken();
             string_stmt(parent);
         }
@@ -876,6 +879,7 @@ public class Parser {
             currentToken = lexer.nextToken();
 
             if (currentToken.getTokenClass() == Token.CONCATOP) {
+                parent.addChild(currentToken);
                 currentToken = lexer.nextToken();
                 string_stmt(parent);
             }

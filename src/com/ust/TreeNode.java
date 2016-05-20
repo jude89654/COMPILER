@@ -103,6 +103,7 @@ public class TreeNode extends Object {
 
     //kuhain ang string ng createTree
     public String toString() {
+
         String details="[";
         if(token!=null)
             details+=token.getLexeme();
@@ -132,19 +133,18 @@ public class TreeNode extends Object {
 
     }
 
-    public String printTerminals(){
-        String details="";
+    public ArrayList<Token> printTerminals(ArrayList<Token> arrayList){
 
         if(!children.isEmpty()){
             for (TreeNode treeNode : children) {
                 node.add(treeNode.node);
-                details+=treeNode.printTerminals();
+                printTerminals(arrayList);
             }
         }else{
-            details+=" "+key;
+            arrayList.addAll(printTerminals(arrayList));
         }
 
-        return details;
+        return arrayList;
     }
 
     public JTree getJTree(){

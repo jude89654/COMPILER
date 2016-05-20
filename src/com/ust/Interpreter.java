@@ -1,5 +1,6 @@
 package com.ust;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -21,7 +22,7 @@ public class Interpreter {
     public void program(TreeNode treeNode){
         statementsInterpret(treeNode.getChildren().get(1));
 
-        System.out.println(treeNode.printTerminals());
+        //System.out.println(treeNode.printTerminals());
 
         symbolTable.showTable();
     }
@@ -44,6 +45,8 @@ public class Interpreter {
 
         System.out.println("--"+node.getKey());
         switch(node.getKey()){
+            //case "<OUTPUTSTMT>":
+
             case "|":
                 break;
             case "<ASSIGNSTMT>":
@@ -71,17 +74,16 @@ public class Interpreter {
     void inputStatementInterpret(TreeNode node){
         //for the scanning of the input
         Scanner sc = new Scanner(System.in);
-        String identifier =node.getChildren().get(2).getKey();
+        String identifier =node.getChildren().get(2).getChildren().get(0).getKey();
         //prompt
         System.out.println("input value for \""+identifier+"\": ");
-
         String laman = sc.nextLine().trim();
 
         SymbolTableEntry symbolTableEntry = new SymbolTableEntry(identifier,"","");
         //check kung anong data type yung ininput
         int value;
         double value1;
-        String type;
+        //String type;
         try{
             value = Integer.parseInt(laman);
             symbolTableEntry.value=value;
@@ -102,16 +104,34 @@ public class Interpreter {
     }
 
     void outputStatementInterpret(TreeNode node){
-        String toBeOutputted="";
-        String toBeProcessed=node.getChildren().get(2).printTerminals();
-        System.out.println(toBeProcessed);
+
+        System.out.println("PRINT------"+stringExpressionInterpret(node.getChildren().get(2)));
+
+    }
+
+    String stringExpressionInterpret(TreeNode node){
+        String output="";
+        for(TreeNode children: node.getChildren()){
+            if(children.getToken().getTokenClass()==Token.NUMINT
+                    |children.getToken().getTokenClass()==Token.NUMDEC
+                    |children.getToken().getTokenClass()==Token.STRING){
+                output+=children.getToken().getLexeme();
+                continue;
+            }else if(children.getToken().getTokenClass()==Token.VARIABLE){
+                if(symbolTable.checkIdentifier(children.getToken())){
+                    output+=symbolTable.getValue(children.getToken()).value;
+                }
+
+            }
+        }
+        return output;
     }
 
     void booleanExpressionInterpret(TreeNode node){
 
         //boolean bulyan =
 
-        node.printTerminals();
+        //node.printTerminals();
         for(TreeNode child : node.getChildren()){
 
 
@@ -121,41 +141,19 @@ public class Interpreter {
 
     void ExpressionInterpret(TreeNode node){
         String expression = "";
-        System.out.println(node.printTerminals());
+       // System.out.println(node.printTerminals());
 
 
 
         //return expression;
     }
 
-    String operandInterpret(TreeNode node){
-        String expression ="";
-
-        for(TreeNode child : node.getChildren()){
-            switch(child.getKey()){
-                case "<TERM>":
-                    //expression+=termInterpret(child);
-                    break;
-
-            }
-        }
-        return null;
+    void error(String string){
+        System.out.println("ERROR------"+string);
+        System.exit(1);
     }
 
-    void assignmentInterpret(TreeNode node){
-        String identifier = node.getChildren().get(0).getKey();
-        String Expression = ExpressionInterpret(node.getChildren().get(3));
 
-    }
-
-    void Expression(TreeNode node){
-
-    }
-
-    void RelationalExpressionInterpret(TreeNode node){
-
-
-    }
 
 
 

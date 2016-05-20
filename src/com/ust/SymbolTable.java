@@ -20,7 +20,7 @@ public class SymbolTable {
     }
 
 
-    public static boolean checkIdentifier(String name, Identifier id) {
+    public static boolean checkIdentifier(String name) {
 
         return linkedHashMap.containsKey(name);
 
