@@ -120,6 +120,9 @@ public class Interpreter {
             }else if(children.getToken().getTokenClass()==Token.VARIABLE){
                 if(symbolTable.checkIdentifier(children.getToken())){
                     output+=symbolTable.getValue(children.getToken()).value;
+                }else{
+
+                    error("VARIABLE"+children.getToken().getLexeme()+"NOT INITIALIZED");
                 }
 
             }
@@ -141,7 +144,7 @@ public class Interpreter {
 
     void ExpressionInterpret(TreeNode node){
         String expression = "";
-       // System.out.println(node.printTerminals());
+        node.toString();
 
 
 
@@ -153,6 +156,9 @@ public class Interpreter {
         System.exit(1);
     }
 
+    void assignmentStatementInterpret(TreeNode node){
+
+    }
 
 
 

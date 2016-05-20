@@ -165,7 +165,7 @@ public class Parser {
                 outputStmt(stmtNode, OToken);
                 break;
             case Token.IFKUNG_KEYWORD:
-                currentToken = lexer.nextToken();
+                //currentToken = lexer.nextToken();
                 ifKungStmt(stmtNode);
                 break;
             case Token.LIKEWHILE_KEYWORD:
@@ -431,7 +431,7 @@ public class Parser {
             IONode.addChild(currentToken);
             currentToken = lexer.nextToken();
             if (currentToken.getTokenClass() == Token.VARIABLE) {
-                TreeNode variableNode = new TreeNode("VARIABLE");
+                TreeNode variableNode = new TreeNode("<VARIABLE>");
                 IONode.addChild(variableNode);
                 variableNode.addChild(currentToken);
 
@@ -487,7 +487,9 @@ public class Parser {
         TreeNode ifKungNode = new TreeNode("<IFSTMT>");
 
         parent.addChild(ifKungNode);
-        ifKungNode.addChild(new Token("", "ifKung", Token.IFKUNG_KEYWORD, Token.IFKUNG_KEYWORD));
+        ifKungNode.addChild(currentToken);
+
+        currentToken=lexer.nextToken();
 
         if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
             ifKungNode.addChild(currentToken);
@@ -672,23 +674,6 @@ public class Parser {
             currentToken = lexer.nextToken();
         }
 
-        if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
-            booleanStmtNode.addChild(currentToken);
-            currentToken = lexer.nextToken();
-            //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
-            booleanstmt(booleanStmtNode);
-
-            if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
-                //booleanStmtNode.add(new DefaultMutableTreeNode(currentToken.getLexeme()));
-                booleanStmtNode.addChild(currentToken);
-                currentToken = lexer.nextToken();
-            } else {
-
-                error(")", currentToken, booleanStmtNode);
-                System.out.println(") EXPECTED AT LINE " + currentToken.getLineNumber());
-            }
-        }
-
 
         relationalstmt(booleanStmtNode);
         while (currentToken.getTokenClass() == Token.AND_KEYWORD | currentToken.getTokenClass() == Token.OR_KEYWORD) {
@@ -726,7 +711,8 @@ public class Parser {
 
         if (currentToken.getTokenClass() == Token.YAH_KEYWORD
                 | currentToken.getTokenClass() == Token.NAH_KEYWORD
-                | currentToken.getTokenClass() == Token.VARIABLE) {
+                | currentToken.getTokenClass() == Token.VARIABLE
+                ) {
             relationalStmtNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
@@ -744,8 +730,23 @@ public class Parser {
             }
 
 
-        }// else {
-        //}
+        }else if(currentToken.getTokenClass()==Token.NUMDEC|
+                currentToken.getTokenClass()==Token.NUMINT){
+
+            relationalStmtNode.addChild(currentToken);
+            exprStmt(relationalStmtNode);
+            if (currentToken.getTokenClass() == Token.GREATERTHANOREQUAL
+                    | currentToken.getTokenClass() == Token.GREATERTHAN
+                    | currentToken.getTokenClass() == Token.LESSTHANOREQUAL
+                    | currentToken.getTokenClass() == Token.LESSTHAN
+                    | currentToken.getTokenClass() == Token.ISEQUALOP
+                    | currentToken.getTokenClass() == Token.NOTEQUALOP) {
+                relationalStmtNode.addChild(currentToken);
+                currentToken = lexer.nextToken();
+                exprStmt(relationalStmtNode);
+
+            }
+        }
         System.out.println("EXITED RELATIONAL STMT");
     }
 
@@ -765,6 +766,12 @@ public class Parser {
             exprStmtNode.addChild(currentToken);
             currentToken = lexer.nextToken();
             operand(exprStmtNode);
+        }
+
+        if(currentToken.getTokenClass()==Token.CONCATOP){
+            parent.addChild(currentToken);
+            currentToken = lexer.nextToken();
+            string_stmt(parent);
         }
 
         //infix="";
@@ -796,11 +803,7 @@ public class Parser {
         parent.addChild(termNode);
 
         factor(termNode);
-        if(currentToken.getTokenClass()==Token.CONCATOP){
-            parent.addChild(currentToken);
-            currentToken = lexer.nextToken();
-            string_stmt(parent);
-        }
+
         while (currentToken.getTokenClass() == Token.MULTOP
                 | currentToken.getTokenClass() == Token.DIVOP
                 | currentToken.getTokenClass() == Token.MODULOOP) {
@@ -810,7 +813,6 @@ public class Parser {
             currentToken = lexer.nextToken();
             factor(termNode);
         }
-
         System.out.println("EXITED TERM");
 
     }
