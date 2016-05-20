@@ -1,8 +1,5 @@
 package com.ust;
 
-/**
- * Created by Jude on 5/13/2016.
- */
 
 public class Identifier {
     String type = null;

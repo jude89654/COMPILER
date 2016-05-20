@@ -11,17 +11,26 @@ public class Interpreter {
     private TreeNode treeNode;
 
     public Interpreter(TreeNode treeNode){
-        this.treeNode = treeNode.children.get(1);
+        this.treeNode = treeNode;
     }
 
     public void  startsemantics(){
-        //statementsInterpret(tre);
+       program(treeNode);
+    }
+
+    public void program(TreeNode treeNode){
+        statementsInterpret(treeNode.getChildren().get(1));
     }
 
     void statementsInterpret(TreeNode node){
 
         //interpret every child ng kada node.
         for(TreeNode children:node.getChildren()){
+
+            //pag delimiter hayaan lang
+            if(children.getKey().equals("|"))continue;
+
+            System.out.println(children.getKey());
             statement(children);
         }
 
@@ -45,7 +54,7 @@ public class Interpreter {
                 //TODO ifStmtInterpret();
                 break;
             case "<INPUTSTMT>":
-                //TODO inputStmtInterpret();
+                //inputStatementInterpret(node);
                 break;
             case "<WHILESTMT>":
                 //TODO whileStmtInterpret();
@@ -59,7 +68,10 @@ public class Interpreter {
         String expression = "";
 
         for(TreeNode children : node.getChildren()){
-            //oExpression
+
+            switch(children.getKey()){
+                case
+            }
         }
         return null;
     }
@@ -68,6 +80,9 @@ public class Interpreter {
         String identifier = node.getChildren().get(0).getKey();
         String Expression = ExpressionInterpret(node.getChildren().get(3));
 
+    }
+
+    void Expression(TreeNode node){
 
     }
 

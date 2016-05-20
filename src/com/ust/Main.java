@@ -51,6 +51,10 @@ public class Main {
             //gagawa na ng tree
             viewTree(bungol.tree.node);
 
+            Interpreter interpreter = new Interpreter(bungol.tree);
+            interpreter.startsemantics();
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

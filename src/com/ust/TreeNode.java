@@ -21,6 +21,7 @@ public class TreeNode extends Object {
 
     public TreeNode(Token token) {
         this.token = token;
+        this.key=token.getLexeme();
         node = new DefaultMutableTreeNode(token.getLexeme());
     }
     public TreeNode(String key){
