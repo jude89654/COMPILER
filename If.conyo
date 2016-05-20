@@ -15,7 +15,7 @@ banana is banana|
 likeWhile(banana > 10){
 
     likeWhile(banana> isGood){
-        banana is (banana iAdd 1) iSub 2|
+        banana is (banana iAdd 1) iSub 2 . banana|
     }
 
 }

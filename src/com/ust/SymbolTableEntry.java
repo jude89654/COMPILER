@@ -18,7 +18,7 @@ public class SymbolTableEntry {
 
     //mga attributes ng entry
     public String id;
-    public int type;
+    public String type;
     public boolean isUsed = false;
 
     public Object value;
@@ -29,11 +29,11 @@ public class SymbolTableEntry {
         this.id=id;
     }
 
-    public SymbolTableEntry(String id, int type){
+    public SymbolTableEntry(String id, String type){
         this.id = id;
         this.type=type;
     }
-    public SymbolTableEntry(String id, int type, Object value){
+    public SymbolTableEntry(String id, String type, Object value){
         this.id = id;
         this.type=type;
         this.value = value;

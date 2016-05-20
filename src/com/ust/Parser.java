@@ -151,7 +151,7 @@ public class Parser {
                 break;
             case Token.STRING:
                 currentToken = lexer.nextToken();
-                string_stmt(stmtNode, "");
+                string_stmt(stmtNode);
                 break;
             case Token.MAKELAGAY_KEYWORD:// IO
 
@@ -320,7 +320,7 @@ public class Parser {
         System.out.println("EXITED WHILESTMT");
     }
 
-    public void string_stmt(TreeNode parent, String strings) {
+    public void string_stmt(TreeNode parent) {
         System.out.println("ENTERED STRING STMT");
         TreeNode stringNode = new TreeNode("<STRINGEXPR>");
         parent.addChild(stringNode);
@@ -334,23 +334,7 @@ public class Parser {
                 currentToken.getTokenClass() == Token.NUMDEC |
                 currentToken.getTokenClass() == Token.STRING |
                 currentToken.getTokenClass() == Token.NUMINT) {
-            /* switch (currentToken.getTokenClass()) {
-                case Token.VARIABLE:
-                    if (mgasimbolo.checkIdentifier(currentToken)) {
-                        //add yung value ng variable sa outputstmt
-                        outputstmt += mgasimbolo.getValue(currentToken.getLexeme()).value;
-                    } else {
-                        System.out.println("ERROR! - VARIABLE" + currentToken.getLexeme() + "NOT INITIALIZED");
-                        System.exit(0);
-                    }
-                    break;
-                case Token.NUMDEC:
-                case Token.NUMINT:
-                case Token.STRING:
-                    outputstmt += currentToken.getLexeme();
-                    break;
-            }
-*/
+
             stringNode.addChild(currentToken);
             currentToken = lexer.nextToken();
 
@@ -480,7 +464,7 @@ public class Parser {
             // infix+=" (";
             IONode.addChild(currentToken);
             currentToken = lexer.nextToken();
-            string_stmt(IONode, "");
+            string_stmt(IONode);
             if (currentToken.getTokenClass() == Token.CLOSEPARENTHESIS) {
 
                 IONode.addChild(currentToken);
@@ -811,25 +795,13 @@ public class Parser {
         parent.addChild(termNode);
 
         factor(termNode);
+        if(currentToken.getTokenClass()==Token.CONCATOP){
+            currentToken = lexer.nextToken();
+            string_stmt(parent);
+        }
         while (currentToken.getTokenClass() == Token.MULTOP
                 | currentToken.getTokenClass() == Token.DIVOP
-                | currentToken.getTokenClass() == Token.MODULOOP
-                | currentToken.getTokenClass() == Token.CONCATOP) {
-
-            switch (currentToken.getTokenClass()) {
-                case Token.MULTOP:
-                    infix += " *";
-                    break;
-
-                case Token.DIVOP:
-                    infix += " *";
-                    break;
-
-                case Token.MODULOOP:
-                    infix += " *";
-                    break;
-
-            }
+                | currentToken.getTokenClass() == Token.MODULOOP) {
 
 
             termNode.addChild(currentToken);
@@ -854,7 +826,7 @@ public class Parser {
             //currentToken = lexer.nextToken(); //redundant kasi
 
         } else if (currentToken.getTokenClass() == Token.STRING) {
-            string_stmt(factorNode, infix);
+            string_stmt(factorNode);
             //currentToken = lexer.nextToken();
         } else if (currentToken.getTokenClass() == Token.OPENPARENTHESIS) {
 
@@ -906,7 +878,7 @@ public class Parser {
 
             if (currentToken.getTokenClass() == Token.CONCATOP) {
                 currentToken = lexer.nextToken();
-                string_stmt(parent, infix);
+                string_stmt(parent);
             }
 
 
