@@ -131,7 +131,6 @@ public class Interpreter {
                 if(symbolTable.checkIdentifier(children.getToken())){
                     output+=symbolTable.getValue(children.getToken()).value;
                 }else{
-
                     error("VARIABLE"+children.getToken().getLexeme()+"NOT INITIALIZED");
                 }
 
@@ -200,6 +199,8 @@ public class Interpreter {
                 case Token.VARIABLE:
                     if(symbolTable.checkIdentifier(child.getToken())){
                         stringToBeComputed+=" "+symbolTable.getValue(child.getKey()).value;
+                    }else{
+                        error(child.token.getLexeme()+" VARIABLE NOT INITIALIZED");
                     }
                     break;
                 case Token.NUMDEC:
@@ -296,7 +297,7 @@ public class Interpreter {
                 symbolTableEntry.type = "STRING";
 
             }else{
-                
+
                 //String laman = StackExpr.infixToPostfix(stringToBeComputed);
                 String laman =  stringToBeOutputted;
                 symbolTableEntry.value = laman;
