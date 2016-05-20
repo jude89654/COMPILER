@@ -1,7 +1,15 @@
 LEGGO
 
 
-banana is 100|
 
+banana is (100 iSub 100) iDiv 100 iPow 100 iTimes 100 . "a100s"|
+
+banana is "lola"|
+
+makeLimbag("LOL")|
+
+ifKung(banana<100){
+    makeLimbag("banana")|
+}
 
 Stop Na

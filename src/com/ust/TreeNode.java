@@ -49,7 +49,8 @@ public class TreeNode extends Object {
         b.addChild(d);
         b.addChild(x);
 
-        jude.createTree();
+        ArrayList arrayList=new ArrayList();
+        //jude.printTerminals(arrayList);
 
         System.out.println(jude.toString());
         TreeViewer treeviewer = new TreeViewer(jude.jtree);
@@ -141,6 +142,7 @@ public class TreeNode extends Object {
                 printTerminals(arrayList);
             }
         }else{
+
             arrayList.addAll(printTerminals(arrayList));
         }
 

@@ -712,29 +712,13 @@ public class Parser {
         if (currentToken.getTokenClass() == Token.YAH_KEYWORD
                 | currentToken.getTokenClass() == Token.NAH_KEYWORD
                 | currentToken.getTokenClass() == Token.VARIABLE
-                ) {
-            relationalStmtNode.addChild(currentToken);
-            currentToken = lexer.nextToken();
-
-
-            if (currentToken.getTokenClass() == Token.GREATERTHANOREQUAL
-                    | currentToken.getTokenClass() == Token.GREATERTHAN
-                    | currentToken.getTokenClass() == Token.LESSTHANOREQUAL
-                    | currentToken.getTokenClass() == Token.LESSTHAN
-                    | currentToken.getTokenClass() == Token.ISEQUALOP
-                    | currentToken.getTokenClass() == Token.NOTEQUALOP) {
-                relationalStmtNode.addChild(currentToken);
-                currentToken = lexer.nextToken();
-                exprStmt(relationalStmtNode);
-
-            }
-
-
-        }else if(currentToken.getTokenClass()==Token.NUMDEC|
+                |currentToken.getTokenClass()==Token.NUMDEC|
                 currentToken.getTokenClass()==Token.NUMINT){
 
-            relationalStmtNode.addChild(currentToken);
+
             exprStmt(relationalStmtNode);
+
+
             if (currentToken.getTokenClass() == Token.GREATERTHANOREQUAL
                     | currentToken.getTokenClass() == Token.GREATERTHAN
                     | currentToken.getTokenClass() == Token.LESSTHANOREQUAL
@@ -746,6 +730,8 @@ public class Parser {
                 exprStmt(relationalStmtNode);
 
             }
+
+
         }
         System.out.println("EXITED RELATIONAL STMT");
     }
@@ -787,7 +773,7 @@ public class Parser {
         term(operandNode);
         while (currentToken.getTokenClass() == Token.POWOP) {
             infix += " ^";
-            parent.addChild(currentToken);
+            operandNode.addChild(currentToken);
             currentToken = lexer.nextToken();
             term(operandNode);
         }
