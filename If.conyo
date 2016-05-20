@@ -1,6 +1,6 @@
 LEGGO
 
-
+red is green|
 
 banana is (100 iSub 100) iDiv 100 iPow 100 iTimes 100 . "a100s"|
 
@@ -8,6 +8,7 @@ banana is "lola"|
 
 makeLimbag("LOL")|
 
+banana is 10.1|
 ifKung(banana<100){
     makeLimbag("banana")|
 }
